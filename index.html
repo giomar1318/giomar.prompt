@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GIOMAR Prompt Archive - 이미지 없이 프롬프트와 활용법에 집중한 AI 창작 정보 아카이브">
+<title>GIOMAR Prompt Archive</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%231B1817'/%3E%3Cpath d='M17 18h30v8H25v12h14v-5H31v-7h16v20c-4 3-9 5-16 5-13 0-22-8-22-20S18 11 31 11c7 0 12 2 16 6l-6 7c-3-3-6-4-10-4-7 0-12 4-12 11s5 12 12 12c3 0 6-1 8-2v-3H17z' fill='%23C7A86B'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#F8F4EE;
+  --paper:#FFFDF9;
+  --ink:#1B1817;
+  --muted:#6E6660;
+  --line:#E4DDD3;
+  --gold:#C7A86B;
+  --gold-soft:#EADDBF;
+  --lav:#D8CEE7;
+  --lav-deep:#BCAED4;
+  --beige:#EEE5DA;
+  --shadow:0 16px 45px rgba(35,27,20,.07);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 92% 8%,rgba(216,206,231,.34),transparent 20%),
+    radial-gradient(circle at 7% 26%,rgba(234,221,191,.26),transparent 18%),
+    var(--bg);
+  line-height:1.68;
+}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--lav-deep);outline-offset:3px}
+.skip-link{position:fixed;left:16px;top:-60px;z-index:2000;background:var(--ink);color:white;padding:10px 14px;border-radius:10px}
+.skip-link:focus{top:12px}
+.container{width:min(1180px,calc(100% - 28px));margin:0 auto}
+
+header{
+  position:sticky;top:0;z-index:1000;
+  backdrop-filter:blur(14px);
+  background:rgba(248,244,238,.91);
+  border-bottom:1px solid var(--line);
+}
+.contact-strip{min-height:38px;display:flex;align-items:center;justify-content:flex-end;gap:14px;border-bottom:1px solid rgba(228,221,211,.75);font-size:13px;color:var(--muted)}
+.contact-strip>span{font-weight:700;color:#6A615A}
+.contact-links{display:flex;align-items:center;gap:7px}
+.social-link{display:inline-flex;align-items:center;min-height:30px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.82);font-weight:700;color:#4A433E;transition:.18s ease}
+.social-link:hover{transform:translateY(-1px);border-color:#BDAA8A;background:white}
+.social-link.pending{color:#968D85;background:rgba(255,255,255,.45)}
+.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800}
+.brand-mark{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--lav-deep),#F6EFE4);
+  box-shadow:inset 0 0 0 5px rgba(255,255,255,.5);
+}
+.brand small{display:block;font-size:10px;font-weight:600;color:#8B8178;letter-spacing:.13em}
+nav{display:flex;gap:18px;font-size:14px;color:#5C544D}
+nav a:hover{color:#000}
+.brand-line{font-size:12px;color:#827970}
+
+.hero{padding:92px 0 70px}
+.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:42px;align-items:center}
+.eyebrow{
+  display:inline-flex;padding:7px 12px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(255,255,255,.72);
+  font-size:12px;color:#6E655D;
+}
+h1{font-size:clamp(48px,7vw,82px);line-height:1.02;letter-spacing:-.055em;margin:20px 0}
+.lead{font-size:clamp(18px,2.1vw,22px);max-width:730px;color:#504A44;margin:0 0 28px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--ink);border-radius:14px;padding:11px 15px;
+  background:white;cursor:pointer;font-weight:700;font-size:14px;
+}
+.btn.dark{background:linear-gradient(135deg,#211C19,#3A302B);color:white;border-color:#211C19}
+
+.hero-panel{
+  min-height:390px;border-radius:32px;padding:30px;color:white;
+  background:
+    radial-gradient(circle at 76% 20%,rgba(218,207,235,.43),transparent 18%),
+    radial-gradient(circle at 24% 16%,rgba(234,220,191,.28),transparent 16%),
+    linear-gradient(160deg,#181514 0%,#28221F 62%,#40332E 100%);
+  box-shadow:var(--shadow);
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.hero-panel .mini{font-size:11px;letter-spacing:.18em;color:#E8E0D5}
+.hero-panel h3{font-size:30px;line-height:1.3;margin:8px 0 14px}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px}
+.tag{font-size:11px;padding:6px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.17);background:rgba(255,255,255,.08)}
+
+.section{padding:76px 0}
+.section.alt{background:rgba(255,255,255,.44);border-block:1px solid var(--line)}
+.section-head{display:flex;justify-content:space-between;gap:22px;align-items:flex-end;margin-bottom:26px}
+.section-head h2{font-size:clamp(32px,4.2vw,50px);letter-spacing:-.04em;margin:0}
+.section-head p{max-width:620px;color:var(--muted);margin:0}
+
+.quick{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.quick a{
+  min-height:116px;background:rgba(255,255,255,.9);border:1px solid var(--line);
+  border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;
+  transition:.2s ease;
+}
+.quick a:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.quick .icon{font-size:25px}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 26px}
+.search{flex:1;min-width:260px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:white}
+.filter-btn{border:1px solid var(--line);background:white;border-radius:999px;padding:9px 13px;cursor:pointer}
+.filter-btn.active{background:linear-gradient(135deg,#211D1A,#493B34);color:white;border-color:#211D1A}
+.count{font-size:13px;color:var(--muted);margin-left:auto}
+
+.prompt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prompt-card{
+  background:rgba(255,255,255,.94);border:1px solid var(--line);
+  border-radius:24px;padding:21px;display:flex;flex-direction:column;gap:11px;
+  box-shadow:0 8px 28px rgba(21,21,25,.035);
+}
+.card-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.icon-box{
+  width:46px;height:46px;border-radius:15px;
+  background:linear-gradient(135deg,#FFF8EB,#ECE4F5);
+  border:1px solid #E8DFD4;display:grid;place-items:center;font-size:22px;flex:0 0 auto;
+}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.11em;color:#786F67}
+.prompt-card h3{font-size:20px;line-height:1.35;margin:3px 0 0}
+.prompt-card p{margin:0;color:#69625C;font-size:14px}
+.pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{font-size:11px;padding:5px 8px;border-radius:999px;background:#F3EDE5;border:1px solid var(--line);color:#5C554F}
+.prompt-card .btn{margin-top:auto}
+.detail{display:none;margin-top:5px;padding-top:14px;border-top:1px solid var(--line)}
+.detail h4{font-size:14px;margin:14px 0 7px}
+.prompt-box{
+  background:linear-gradient(160deg,#171412,#2B2420);
+  color:#F1ECE4;border-radius:16px;padding:17px;white-space:pre-wrap;
+  font-size:13px;position:relative;
+}
+.copy-btn{
+  position:absolute;right:9px;top:9px;background:#FFF;color:#17171B;
+  border:none;border-radius:8px;padding:6px 9px;font-size:11px;cursor:pointer;
+}
+.note{
+  margin-top:10px;padding:12px 14px;border-left:3px solid var(--gold);
+  background:#FFF8EE;border-radius:0 12px 12px 0;color:#5D564F;font-size:13px;
+}
+
+.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.guide-card{background:white;border:1px solid var(--line);border-radius:22px;padding:20px}
+.guide-card h3{margin:8px 0;font-size:19px}
+.guide-card p{margin:0;color:#68625C;font-size:14px}
+
+footer{padding:38px 0 50px;border-top:1px solid var(--line)}
+.footer-grid{display:block}
+.footer-title{font-weight:800;font-size:18px}
+.footer-note{color:var(--muted);font-size:13px;margin-top:8px}
+.copyright{margin-top:26px;color:#817B73;font-size:12px}
+
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr}
+  .prompt-grid,.guide-grid{grid-template-columns:repeat(2,1fr)}
+  .quick{grid-template-columns:repeat(3,1fr)}
+  nav{display:none}
+}
+@media(max-width:640px){
+  .prompt-grid,.guide-grid,.quick{grid-template-columns:1fr}
+  .section-head{flex-direction:column;align-items:flex-start}
+  .hero{padding:60px 0 46px}
+  h1{font-size:44px}
+  .count{width:100%;margin-left:0}
+  .contact-strip{justify-content:space-between;gap:8px;overflow-x:auto;padding:6px 0}
+  .contact-strip>span{display:none}
+  .contact-links{width:100%;justify-content:center}
+  .social-link{flex:1;justify-content:center;white-space:nowrap}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
+<header>
+  <div class="container contact-strip" aria-label="GIOMAR 외부 채널">
+    <span>GIOMAR 바로가기</span>
+    <div class="contact-links">
+      <a class="social-link" href="https://www.giomar.kr/" target="_blank" rel="noopener noreferrer" aria-label="GIOMAR 공식 홈페이지">홈페이지</a>
+      <a class="social-link" href="https://open.kakao.com/o/scnLXn0h" target="_blank" rel="noopener noreferrer" aria-label="GIOMAR 카카오톡 오픈채팅">카카오톡</a>
+      <a class="social-link" href="https://www.instagram.com/giomar_art/" target="_blank" rel="noopener noreferrer">인스타그램</a>
+    </div>
+  </div>
+  <div class="container nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark"></span>
+      <span>GIOMAR Prompt Archive<small>AI CREATIVE GUIDE</small></span>
+    </a>
+    <nav>
+      <a href="#library">프롬프트 찾기</a>
+      <a href="#guide">활용하는 법</a>
+      <a href="#basics">AI 기초 가이드</a>
+      <a href="#copyright">저작권·활용</a>
+    </nav>
+    <span class="brand-line">AI는 도구, 감성은 이야기</span>
+  </div>
+</header>
+
+<main id="top" tabindex="-1">
+<div id="main-content"></div>
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">GIOMAR PROMPT ARCHIVE</span>
+      <h1>필요한 프롬프트를<br>찾고, 복사하고,<br>나답게 바꿔보세요.</h1>
+      <p class="lead">
+        이미지 없이도 충분히 이해할 수 있도록
+        프롬프트의 목적, 사용법, GIOMAR TIP, 변형 아이디어를 함께 정리한
+        AI 창작 정보 아카이브입니다.
+      </p>
+      <div class="hero-actions">
+        <a class="btn dark" href="#library">프롬프트 찾아보기 →</a>
+        <a class="btn" href="#guide">활용법 먼저 보기</a>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <div class="mini">PROMPT · GUIDE · TIP</div>
+      <h3>이미지를 준비하지 않아도<br>계속 쌓아갈 수 있는 정보사이트</h3>
+      <div class="tag-row">
+        <span class="tag">Image</span>
+        <span class="tag">Video</span>
+        <span class="tag">Character</span>
+        <span class="tag">Story</span>
+        <span class="tag">Media Art</span>
+        <span class="tag">Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">QUICK START</span>
+        <h2>무엇을 만들고 싶으세요?</h2>
+      </div>
+      <p>카테고리를 선택하면 관련 프롬프트만 바로 볼 수 있습니다.</p>
+    </div>
+
+    <div class="quick">
+      <a href="#library" onclick="presetFilter('이미지')"><span class="icon">🖼️</span><strong>AI 이미지</strong></a>
+      <a href="#library" onclick="presetFilter('영상')"><span class="icon">🎬</span><strong>AI 영상</strong></a>
+      <a href="#library" onclick="presetFilter('캐릭터')"><span class="icon">🧑‍🎨</span><strong>캐릭터</strong></a>
+      <a href="#library" onclick="presetFilter('동화')"><span class="icon">📖</span><strong>동화·스토리</strong></a>
+      <a href="#library" onclick="presetFilter('미디어아트')"><span class="icon">✨</span><strong>미디어아트</strong></a>
+      <a href="#library" onclick="presetFilter('시즌·디자인')"><span class="icon">🎨</span><strong>시즌·디자인</strong></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="library">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">PROMPT LIBRARY</span>
+        <h2>AI 창작 프롬프트 찾기</h2>
+      </div>
+      <p>
+        단순히 프롬프트만 복사하는 것이 아니라,
+        언제 쓰는지와 어떻게 변형할지까지 함께 볼 수 있게 구성했습니다.
+      </p>
+    </div>
+
+    <div class="toolbar">
+      <input class="search" id="searchInput" type="search" placeholder="예: 자개, 제주, 영상, 동화, 캐릭터">
+      <button class="filter-btn active" data-filter="전체">전체</button>
+      <button class="filter-btn" data-filter="이미지">이미지</button>
+      <button class="filter-btn" data-filter="영상">영상</button>
+      <button class="filter-btn" data-filter="캐릭터">캐릭터</button>
+      <button class="filter-btn" data-filter="동화">동화</button>
+      <button class="filter-btn" data-filter="미디어아트">미디어아트</button>
+      <button class="filter-btn" data-filter="시즌·디자인">시즌·디자인</button>
+      <button class="filter-btn" data-filter="워크북">워크북</button>
+      <button class="filter-btn" data-filter="제주 스타일">제주 스타일</button>
+      <button class="filter-btn" data-filter="나전">나전</button>
+      <button class="filter-btn" data-filter="자기발견">자기발견</button>
+      <button class="filter-btn" data-filter="이미지 확장">이미지 확장</button>
+      <button class="filter-btn" data-filter="명화 재해석">명화 재해석</button>
+      <span class="count" id="countText"></span>
+    </div>
+
+    <div class="prompt-grid" id="promptGrid"></div>
+
+  </div>
+</section>
+
+<section class="section alt" id="guide">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">HOW TO USE</span>
+        <h2>프롬프트를 읽고 활용하는 법</h2>
+      </div>
+      <p>프롬프트를 많이 보는 것보다, 어떤 부분을 바꾸면 결과가 달라지는지 이해하는 것이 더 중요합니다.</p>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card"><div class="kicker">01</div><h3>무엇을 만들지 먼저 정합니다</h3><p>프롬프트를 쓰기 전에 결과물을 한 문장으로 정리하면 방향이 흔들리지 않습니다.</p></div>
+      <div class="guide-card"><div class="kicker">02</div><h3>구조를 나눠 읽습니다</h3><p>주제·대상·배경·스타일·조명·구도·금지요소를 구분해 읽으면 수정하기 쉬워집니다.</p></div>
+      <div class="guide-card"><div class="kicker">03</div><h3>처음에는 그대로 사용해도 됩니다</h3><p>기본 구조를 익힐 때까지는 복사해서 사용하고, 결과를 본 뒤 자신에게 맞게 바꿔보세요.</p></div>
+      <div class="guide-card"><div class="kicker">04</div><h3>한 번에 하나만 바꿉니다</h3><p>색상·배경·구도를 동시에 바꾸면 무엇이 결과에 영향을 줬는지 알기 어렵습니다.</p></div>
+      <div class="guide-card"><div class="kicker">05</div><h3>GIOMAR TIP을 참고합니다</h3><p>같은 프롬프트라도 조금 더 안정적이고 보기 좋게 만드는 실전 팁을 함께 확인해보세요.</p></div>
+      <div class="guide-card"><div class="kicker">06</div><h3>좋은 결과는 기록합니다</h3><p>잘 나온 프롬프트와 수정 버전을 남겨두면 나만의 AI 창작 데이터가 쌓입니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="basics">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">AI BASICS</span>
+        <h2>처음 시작할 때 알아두면 좋은 것</h2>
+      </div>
+      <p>도구보다 작업 순서를 이해하면 훨씬 쉽게 시작할 수 있습니다.</p>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card"><div class="kicker">IMAGE</div><h3>이미지는 한 장면부터</h3><p>주제 하나, 배경 하나, 분위기 하나부터 시작하고 필요한 디테일은 나중에 더합니다.</p></div>
+      <div class="guide-card"><div class="kicker">VIDEO</div><h3>움직임은 작게</h3><p>인물 1개, 배경 1개, 카메라 1개 정도의 움직임만 넣으면 안정적입니다.</p></div>
+      <div class="guide-card"><div class="kicker">CHARACTER</div><h3>고정 요소를 먼저 정하기</h3><p>얼굴, 헤어, 의상, 색상, 대표 소품처럼 바뀌면 안 되는 요소를 먼저 고정합니다.</p></div>
+      <div class="guide-card"><div class="kicker">STORY</div><h3>장면보다 이야기 먼저</h3><p>이미지를 먼저 만들기보다 시작-문제-시도-해결의 흐름을 먼저 잡는 편이 좋습니다.</p></div>
+      <div class="guide-card"><div class="kicker">MEDIA ART</div><h3>한 상징을 크게</h3><p>많이 넣기보다 하나의 상징, 한 곳의 빛, 넓은 여백을 중심으로 구성합니다.</p></div>
+      <div class="guide-card"><div class="kicker">DESIGN</div><h3>한 장에 한 메시지</h3><p>정보를 모두 넣기보다 가장 중요한 메시지가 먼저 보이도록 정리합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="copyright">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">COPYRIGHT · USE</span>
+        <h2>AI 창작 전 꼭 확인하세요</h2>
+      </div>
+      <p>AI 서비스 정책과 공모전·플랫폼 규정은 달라질 수 있으므로 실제 사용 전 최신 공식 안내를 확인하는 것이 좋습니다.</p>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card"><div class="kicker">01</div><h3>상업적 이용</h3><p>사용한 AI 서비스의 최신 요금제와 약관에서 상업적 이용 가능 여부를 확인합니다.</p></div>
+      <div class="guide-card"><div class="kicker">02</div><h3>공모전 규정</h3><p>AI 사용 허용 범위, 제출 형식, 생성 과정 증빙 요구 여부를 확인합니다.</p></div>
+      <div class="guide-card"><div class="kicker">03</div><h3>타인의 권리</h3><p>브랜드, 캐릭터, 사진, 저작물 등을 무단으로 사용하는 상황을 피합니다.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-title">GIOMAR Prompt Archive</div>
+        <div class="footer-note">
+          AI는 도구, 감성은 이야기, 작품은 나의 언어.<br>
+          프롬프트를 찾고, 이해하고, 자신만의 방식으로 바꿔가는 AI 창작 정보 아카이브입니다.
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 GIOMAR · 🔒 GIOMAR Prompt | 전문·일부·수정본 무단 재배포 ✕
+    </div>
+  </div>
+</footer>
+
+<script src="./prompts-extra.js"></script>
+<script>
+const PROMPTS = [{"id": "p01", "category": "이미지", "icon": "🖼️", "title": "감성 AI 이미지 기본", "level": "초급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "주제·분위기·색감·조명을 정리하는 가장 기본적인 이미지 프롬프트입니다.", "when": "AI 이미지를 처음 만들거나, 복잡한 프롬프트 전에 기본 구조를 익힐 때 좋습니다.", "prompt": "[주제]를 중심으로 한 감성적인 세로형 이미지. 주인공은 [인물/대상], 배경은 [장소/환경]. 전체 분위기는 [분위기], 주조색은 [색상]. [조명]을 사용하고, 화면의 시선 흐름이 자연스럽도록 정돈된 구도로 표현한다. 과도한 장식과 불필요한 텍스트는 제외한다. 화면비 4:5, 고해상도.", "tip": "처음에는 핵심 요소 3~4개만 넣고 결과를 본 뒤 수정하세요.", "variation": "인물 → 사물 / 실내 → 야외 / 웜톤 → 쿨톤"}, {"id": "p02", "category": "이미지", "icon": "🖼️", "title": "한국적 감성 이미지", "level": "초급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "한복·달항아리·한옥·꽃 같은 한국적 요소를 현대적으로 표현합니다.", "when": "전통 소재를 너무 고전적이지 않게 현대적으로 재해석하고 싶을 때 사용합니다.", "prompt": "현대적으로 재해석한 한국적 감성 이미지. [대표 소재]를 중심으로 [배경 요소]를 절제되게 배치한다. 아이보리, 먹빛, 따뜻한 베이지를 기본으로 하고 [포인트 색상]을 소량 사용한다. 넓은 여백, 정갈한 구도, 부드러운 자연광, 세련된 에디토리얼 무드. 과도한 전통 장식과 복잡한 패턴은 제외한다. 세로형 4:5.", "tip": "전통 요소는 2~3개만 선택하면 훨씬 세련되어 보입니다.", "variation": "달항아리 → 한복 / 매화 → 동백 / 한옥 → 돌담"}, {"id": "p03", "category": "이미지", "icon": "🖼️", "title": "제주 감성 포스터", "level": "초급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "오름·바다·현무암·동백 등 제주 자연을 감성 포스터로 구성합니다.", "when": "제주 여행, 지역 콘텐츠, 전시·홍보 이미지의 기본 시안을 만들 때 활용할 수 있습니다.", "prompt": "제주의 자연을 담은 감성 포스터. [대표 제주 요소]를 중심으로 [보조 요소]를 절제되게 배치한다. 바람이 느껴지는 자연스러운 분위기, 넓은 하늘과 여백, 따뜻하고 맑은 자연광. 현무암의 질감과 식물의 디테일을 사실적으로 표현하되 관광 홍보물처럼 과하게 꾸미지 않는다. 문구가 들어갈 상단 또는 하단 여백 확보. 4:5.", "tip": "제주 요소를 많이 나열하기보다 오름+동백처럼 두 가지 정도만 선택하세요.", "variation": "오름 → 바다 / 동백 → 억새 / 낮 → 노을"}, {"id": "p04", "category": "이미지", "icon": "🖼️", "title": "자개 감성 이미지", "level": "중급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "검은 배경과 은은한 자개빛을 활용한 고급스러운 한국적 이미지를 만듭니다.", "when": "한국적 소재를 현대적인 디지털아트나 카드 이미지로 표현할 때 좋습니다.", "prompt": "깊은 검은 옻칠 같은 배경 위에 [주제]의 온전한 실루엣을 유지한다. 얇고 불규칙한 패각 조각이 진주빛, 청록빛, 남보라빛, 은빛으로 은은하게 반사된다. 금빛은 아주 소량만 사용하고, 가장 밝은 지점은 한 곳만 둔다. 화면의 40% 이상은 여백으로 남긴다. 글리터, 네온, 과도한 보석 느낌은 제외한다. 세련된 현대 나전칠기 디지털아트, 4:5.", "tip": "자개는 화면 전체보다 윤곽과 포인트에만 사용하면 더 고급스럽습니다.", "variation": "보름달 → 달항아리 / 동백 → 모란 / 호랑이 → 학"}, {"id": "p05", "category": "이미지", "icon": "🖼️", "title": "럭셔리 브랜드 화보", "level": "중급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "인물과 제품을 고급스럽고 절제된 광고 화보처럼 표현합니다.", "when": "브랜드 무드보드나 광고 시안, 패션·뷰티 콘셉트 연습에 적합합니다.", "prompt": "고급 브랜드 캠페인 화보 스타일. [인물/제품]을 중심으로 미니멀한 공간, 정제된 조명, 고급 소재의 질감, 절제된 색감을 사용한다. 피사체는 과장되지 않은 우아한 포즈와 자연스러운 표정. 배경은 단순하고 시선은 피사체에 집중되도록 구성한다. 에디토리얼 패션 포토그래피, premium commercial aesthetic, 4:5.", "tip": "브랜드 화보는 배경보다 빛, 재질, 포즈가 더 중요합니다.", "variation": "뷰티 → 패션 / 실내 → 자연 / 골드 → 실버"}, {"id": "p06", "category": "이미지", "icon": "🖼️", "title": "미니어처 디오라마", "level": "중급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "한 사람의 삶이나 직업, 꿈을 작은 입체 공간처럼 표현합니다.", "when": "자기소개, 직업 소개, 브랜드 스토리, 수업 프로젝트에 잘 맞습니다.", "prompt": "정교한 미니어처 디오라마. 작은 [공간] 안에 [인물/직업]의 현재와 관심사를 상징하는 소품을 최소한으로 배치한다. 실제 축소 모형처럼 입체적인 깊이, 섬세한 재질, 따뜻한 조명, 정돈된 구도. 작은 인물과 사물이 서로 겹치지 않고 한눈에 이야기가 읽히도록 표현한다. 과도한 소품과 복잡한 배경은 제외한다.", "tip": "삶 전체보다 현재를 상징하는 소품 3~5개만 선택해도 충분합니다.", "variation": "작업실 → 교실 / 여행가방 → 컨테이너 / 현재 → 미래"}, {"id": "p07", "category": "영상", "icon": "🎬", "title": "이미지 → 영상 기본", "level": "초급", "ratio": "16:9", "tool": "AI Video", "summary": "한 장의 기준 이미지에 자연스러운 움직임을 추가하는 기본형입니다.", "when": "AI 영상 생성이 처음이거나, 얼굴 변형을 줄이고 싶은 경우 좋습니다.", "prompt": "기준 이미지의 인물, 의상, 배경, 색감을 그대로 유지한다. 인물은 자연스럽게 작은 동작만 한다. 배경 요소는 바람에 살짝 흔들리는 정도로 표현한다. 카메라는 천천히 앞으로 이동한다. 과장된 움직임, 얼굴 변형, 새로운 인물 추가, 갑작스러운 카메라 회전은 금지한다. 부드럽고 안정적인 5~10초 영상.", "tip": "인물 1개 + 배경 1개 + 카메라 1개 움직임 정도가 가장 안정적입니다.", "variation": "push-in → pull-out / 바람 → 물결 / 정면 → 측면"}, {"id": "p08", "category": "영상", "icon": "🎬", "title": "시네마틱 카메라 무빙", "level": "중급", "ratio": "16:9", "tool": "AI Video", "summary": "정적인 이미지에 영화 같은 카메라 움직임을 더합니다.", "when": "작품 영상이나 브랜드 필름에 깊이감을 주고 싶을 때 적합합니다.", "prompt": "기준 장면을 그대로 유지한다. 카메라는 매우 천천히 [push-in / pull-out / pan left / pan right / orbit] 움직인다. 피사체의 형태와 얼굴은 고정하고, 배경의 깊이감과 원근 변화만 자연스럽게 강조한다. 부드러운 cinematic camera movement, no sudden motion, no distortion, no object morphing.", "tip": "카메라 동작은 한 장면에 하나만 쓰는 것이 좋습니다.", "variation": "push-in / pan / orbit / tilt-up"}, {"id": "p09", "category": "영상", "icon": "🎬", "title": "인물 자연스러운 움직임", "level": "중급", "ratio": "9:16", "tool": "AI Video", "summary": "표정과 손동작을 최소한으로 제어해 인물 영상을 자연스럽게 만듭니다.", "when": "릴스·숏폼에서 인물 이미지가 너무 굳어 보일 때 활용합니다.", "prompt": "인물의 얼굴, 헤어스타일, 의상은 기준 이미지와 동일하게 유지한다. 자연스럽게 한 번 눈을 깜빡이고, 미세하게 호흡하며, 시선을 천천히 [왼쪽/오른쪽/카메라]으로 이동한다. 손은 작은 동작 하나만 한다. 입 모양과 얼굴형 변화, 과장된 제스처, 새로운 액세서리 생성은 금지한다. 9:16 vertical video.", "tip": "미소+고개회전+손흔들기를 한 번에 넣기보다 하나씩 테스트하세요.", "variation": "시선 이동 / 손동작 / 고개 움직임"}, {"id": "p10", "category": "영상", "icon": "🎬", "title": "자연 풍경 움직임", "level": "초급", "ratio": "16:9", "tool": "AI Video", "summary": "꽃, 억새, 구름, 파도처럼 자연 요소가 잔잔하게 움직이는 영상을 만듭니다.", "when": "풍경 사진이나 미디어아트의 배경에 생명감을 주고 싶을 때 좋습니다.", "prompt": "기준 풍경의 구도와 색감을 유지한다. [꽃/풀/억새]은 바람에 천천히 흔들리고, [구름/안개]는 매우 느리게 이동한다. [물/파도]는 잔잔하게 흐른다. 카메라는 고정하거나 아주 미세한 push-in만 사용한다. 자연스럽고 조용한 분위기, no sudden motion, no new objects.", "tip": "풍경 영상은 모든 요소가 동시에 크게 움직이면 인공적으로 보입니다.", "variation": "바람 / 안개 / 물결 / 빛 변화"}, {"id": "p11", "category": "캐릭터", "icon": "🧑‍🎨", "title": "캐릭터 기본 설정표", "level": "초급", "ratio": "4:5", "tool": "ChatGPT", "summary": "캐릭터 외형과 성격을 한 번에 정리하는 기본 템플릿입니다.", "when": "동화·인스타툰·영상 캐릭터를 처음 설계할 때 좋습니다.", "prompt": "캐릭터 이름:\n연령대:\n얼굴형:\n눈·코·입 특징:\n헤어스타일:\n의상:\n대표 색상:\n대표 소품:\n성격:\n말투:\n금지 요소:\n\n위 설정을 모든 장면에서 일관되게 유지한다.", "tip": "외형보다 절대 바뀌면 안 되는 5개 요소를 먼저 고정하세요.", "variation": "어린이 / 성인 / 동물형 / 마스코트"}, {"id": "p12", "category": "캐릭터", "icon": "🧑‍🎨", "title": "캐릭터 6뷰 시트", "level": "중급", "ratio": "16:9", "tool": "ChatGPT Image", "summary": "정면·측면·후면 등 다양한 각도의 캐릭터 시트를 만듭니다.", "when": "여러 장면에서 일관된 캐릭터가 필요할 때 유용합니다.", "prompt": "동일한 캐릭터의 6-view character sheet. 정면, 3/4 정면, 좌측면, 우측면, 후면, 3/4 후면을 한 화면에 정리한다. 얼굴형, 헤어스타일, 의상, 신발, 대표 소품, 색상은 모든 뷰에서 동일하게 유지한다. 중립적인 표정과 자세, 단순한 밝은 배경, 디자인 시트 스타일. 16:9.", "tip": "6뷰 시트에서는 포즈보다 형태 확인이 우선입니다.", "variation": "표정 시트 / 의상 시트 / 소품 시트"}, {"id": "p13", "category": "캐릭터", "icon": "🧑‍🎨", "title": "3D 귀여운 캐릭터", "level": "초급", "ratio": "1:1", "tool": "ChatGPT Image", "summary": "둥글고 친근한 3D 캐릭터를 만드는 기본 프롬프트입니다.", "when": "교육용 캐릭터나 SNS 스티커, 어린이 콘텐츠에 적합합니다.", "prompt": "귀엽고 세련된 3D 캐릭터 스타일. [캐릭터]를 둥글고 친근한 비율로 표현한다. 큰 머리, 짧은 팔다리, 단순하고 명확한 표정, 부드러운 재질. 대표 색상은 [색상], 대표 소품은 [소품]. 배경은 단순한 아이보리 또는 파스텔 톤. 과도한 반짝임과 복잡한 장식은 제외. 1:1.", "tip": "귀여움은 디테일보다 실루엣과 비율에서 먼저 결정됩니다.", "variation": "2D / clay / toy / plush"}, {"id": "p14", "category": "동화", "icon": "📖", "title": "AI 그림동화 기획", "level": "초급", "ratio": "-", "tool": "ChatGPT", "summary": "짧은 그림동화의 전체 구조를 6~8장면으로 설계합니다.", "when": "이야기는 떠오르지만 장면 구성이 어려울 때 활용합니다.", "prompt": "5~7세 유아가 이해하기 쉬운 짧은 그림동화를 기획해줘.\n\n주제: [주제]\n주인공: [캐릭터]\n전하고 싶은 메시지: [메시지]\n\n조건:\n- 전체 6~8장면\n- 한 장면당 사건은 하나만\n- 문장은 짧고 따뜻하게\n- 시작 → 문제 → 시도 → 해결 → 마무리 구조\n- 각 장면마다 이미지로 표현하기 좋은 행동과 배경 제안", "tip": "교훈을 먼저 쓰기보다 주인공이 겪는 작은 사건부터 만드세요.", "variation": "우정 / 용기 / 자연 / 가족 / 제주 설화"}, {"id": "p15", "category": "동화", "icon": "📖", "title": "장면별 콘티 만들기", "level": "초급", "ratio": "16:9", "tool": "ChatGPT", "summary": "동화 줄거리를 실제 이미지 제작용 장면표로 바꿉니다.", "when": "스토리에서 이미지 생성 단계로 넘어갈 때 필요합니다.", "prompt": "아래 동화 줄거리를 [6~8]개의 장면으로 나눠줘. 각 장면마다 ① 장면 번호 ② 짧은 내레이션 ③ 등장인물 행동 ④ 배경 ⑤ 감정 ⑥ 이미지 생성 시 핵심 시각 요소를 표로 정리해줘. 한 장면에 사건이 너무 많이 들어가지 않도록 해줘.", "tip": "콘티의 핵심은 무엇을 그릴지가 바로 떠오르게 만드는 것입니다.", "variation": "6컷 / 8컷 / 12컷"}, {"id": "p16", "category": "동화", "icon": "📖", "title": "설화 현대 재해석", "level": "중급", "ratio": "-", "tool": "ChatGPT", "summary": "전통 설화를 현대적인 공간과 인물로 바꾸는 기획 프롬프트입니다.", "when": "공모전·영상·동화에서 오래된 이야기를 새로운 시각으로 풀고 싶을 때 적합합니다.", "prompt": "[설화 제목]의 핵심 사건과 상징을 유지하면서 현대적으로 재해석해줘. 원작의 핵심 메시지와 인물 관계는 훼손하지 말고, 배경을 [현대 도시/학교/제주 현재 공간 등]으로 바꿔줘. 현대 인물의 목표와 갈등이 명확하도록 하고, 시각적으로 표현하기 좋은 6~8개의 장면 아이디어를 제안해줘.", "tip": "원작의 사건을 전부 옮기기보다 핵심 상징 하나를 현재의 문제와 연결하세요.", "variation": "도시 / 학교 / 미래 / 판타지"}, {"id": "p17", "category": "미디어아트", "icon": "✨", "title": "몰입형 미디어아트 기본", "level": "중급", "ratio": "16:9", "tool": "ChatGPT Image", "summary": "하나의 상징을 중심으로 큰 공간감과 여백을 설계합니다.", "when": "전시 시안이나 대형 스크린용 비주얼을 기획할 때 좋습니다.", "prompt": "[주제]를 중심으로 한 몰입형 미디어아트 장면. 광활한 공간 중앙에 [대표 상징] 하나를 배치한다. 배경에는 [공간/자연 요소]를 절제되게 표현한다. 가장 밝은 지점은 한 곳만 두고 넓은 여백과 깊은 공간감을 유지한다. 영상으로 확장할 수 있도록 [빛/바람/꽃잎/물결] 중 1~2개 요소에만 자연스러운 움직임을 예상한다. 16:9, cinematic, immersive digital art.", "tip": "미디어아트는 사물의 개수보다 규모감과 공간감이 중요합니다.", "variation": "자연 / 설화 / 추상 / 도시"}, {"id": "p18", "category": "미디어아트", "icon": "✨", "title": "제주 자연 미디어아트", "level": "중급", "ratio": "16:9", "tool": "ChatGPT Image", "summary": "오름·현무암·동백·바람 같은 제주 자연을 대형 공간에 맞게 재구성합니다.", "when": "제주 지역성과 현대적인 디지털아트를 결합하고 싶을 때 활용합니다.", "prompt": "제주의 자연을 현대적으로 재해석한 몰입형 미디어아트. 광활한 어두운 공간에 [현무암/오름/바다]가 단순한 큰 형태로 나타나고, [동백/억새/바람]이 하나의 상징처럼 강조된다. 색감은 딥 네이비, 블랙, 자연색을 기본으로 하고 포인트 빛은 한 곳만 사용한다. 장식보다 공간감, 여백, 움직임의 가능성을 강조한다. 16:9.", "tip": "지역 요소를 관광 기념품처럼 나열하지 말고 한 상징으로 압축하세요.", "variation": "동백 / 오름 / 바다 / 설화"}, {"id": "p19", "category": "미디어아트", "icon": "✨", "title": "빛과 입자 미디어아트", "level": "고급", "ratio": "16:9", "tool": "ChatGPT Image", "summary": "빛의 흐름과 입자를 중심으로 추상적이고 몰입감 있는 공간을 만듭니다.", "when": "구체적인 인물 없이 감정과 분위기를 표현하는 전시 비주얼에 적합합니다.", "prompt": "어두운 대형 공간 속에서 [색상]의 빛과 미세한 입자가 천천히 흐르는 추상 미디어아트. 중심부에 가장 밝은 빛이 하나 있고, 주변으로 갈수록 서서히 어두워진다. 입자는 폭발하지 않고 유기적으로 이어지며, 깊은 공간감과 잔잔한 움직임을 느끼게 한다. 과도한 네온, 글리터, 복잡한 색상은 제외. 16:9.", "tip": "추상 작업은 색을 2~3개로 제한하면 훨씬 정돈됩니다.", "variation": "청록 / 라벤더 / 골드 / 화이트"}, {"id": "p20", "category": "시즌·디자인", "icon": "🎨", "title": "시즌 인사카드", "level": "초급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "명절·감사·계절 인사카드를 만들 수 있는 기본형입니다.", "when": "추석, 설날, 감사 인사, 연말 카드 등에 바로 응용할 수 있습니다.", "prompt": "[계절/행사] 분위기의 세로형 인사카드. 중앙에는 [대표 이미지 또는 인물], 배경에는 [계절 요소]. 전체 색감은 [색상], 분위기는 따뜻하고 정돈되게. 문구가 들어갈 수 있도록 충분한 여백을 남긴다. 과도한 장식, 복잡한 배경, 읽기 어려운 텍스트는 제외한다. 화면비 4:5.", "tip": "카드 이미지는 문구가 들어갈 공간을 미리 비워두세요.", "variation": "추석 / 설날 / 크리스마스 / 감사"}, {"id": "p21", "category": "시즌·디자인", "icon": "🎨", "title": "포스터용 비주얼", "level": "초급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "행사·전시·교육 포스터에 사용할 배경 비주얼을 만듭니다.", "when": "문구를 나중에 Canva나 디자인 툴에서 넣을 계획일 때 적합합니다.", "prompt": "[행사/주제] 포스터용 비주얼. 화면 중앙 또는 하단에 [대표 오브젝트]를 배치하고, 상단에는 제목을 넣을 수 있는 넓은 여백을 확보한다. 전체 색상은 [대표색] 중심, 시선이 분산되지 않도록 단순한 배경과 명확한 초점. 이미지 안에는 실제 글자를 생성하지 않는다. 4:5.", "tip": "이미지 안에 글자를 생성하기보다 텍스트 공간만 확보하세요.", "variation": "교육 / 전시 / 행사 / SNS"}, {"id": "p22", "category": "시즌·디자인", "icon": "🎨", "title": "브랜드 SNS 이미지", "level": "중급", "ratio": "4:5", "tool": "ChatGPT Image", "summary": "브랜드의 톤앤매너를 유지하는 반복 가능한 SNS 비주얼을 설계합니다.", "when": "인스타그램 피드나 브랜드 콘텐츠 시리즈를 만들 때 좋습니다.", "prompt": "[브랜드명/주제]의 SNS 피드용 이미지. 대표 색상 [색상 1], [색상 2]를 사용하고, [대표 오브젝트]를 한 화면에 하나만 강조한다. 전체 스타일은 [미니멀/럭셔리/감성], 동일한 여백 규칙과 조명 톤을 유지한다. 시리즈로 이어질 수 있도록 배경과 구도 규칙을 일정하게 한다. 4:5.", "tip": "SNS 시리즈는 매번 새로운 디자인보다 반복되는 규칙이 브랜드를 만듭니다.", "variation": "제품 / 교육 / 작품 / 정보 콘텐츠"}];
+const ALL_PROMPTS = [...PROMPTS, ...EXTRA_PROMPTS];
+let activeFilter = '전체';
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+function renderPrompts(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  const filtered = ALL_PROMPTS.filter(p => {
+    const categoryOK = activeFilter === '전체' || p.category === activeFilter;
+    const text = [p.title,p.category,p.summary,p.when,p.prompt,p.tip,p.variation,p.tool,p.source].join(' ').toLowerCase();
+    return categoryOK && (!q || text.includes(q));
+  });
+
+  document.getElementById('countText').textContent = `${filtered.length}개 프롬프트`;
+
+  document.getElementById('promptGrid').innerHTML = filtered.map(p => `
+    <article class="prompt-card">
+      <div class="card-top">
+        <div>
+          <div class="kicker">${escapeHtml(p.category)} · ${escapeHtml(p.level)}</div>
+          <h3>${escapeHtml(p.title)}</h3>
+        </div>
+        <div class="icon-box">${p.icon}</div>
+      </div>
+
+      <p>${escapeHtml(p.summary)}</p>
+
+      <div class="pills">
+        <span class="pill">${escapeHtml(p.tool)}</span>
+        <span class="pill">${escapeHtml(p.ratio)}</span>
+        ${p.source ? `<span class="pill">${escapeHtml(p.source)}</span>` : ''}
+      </div>
+
+      <button class="btn" type="button" aria-expanded="false" aria-controls="${p.id}" onclick="togglePrompt('${p.id}', this)">프롬프트 보기</button>
+
+      <div class="detail" id="${p.id}">
+        <h4>이럴 때 사용하세요</h4>
+        <p>${escapeHtml(p.when)}</p>
+
+        <h4>프롬프트</h4>
+        <div class="prompt-box" id="${p.id}-text">${escapeHtml(p.prompt)}<button class="copy-btn" onclick="copyPrompt('${p.id}-text', event)">복사</button></div>
+
+        <div class="note"><strong>GIOMAR TIP</strong> · ${escapeHtml(p.tip)}</div>
+
+        <h4>변형 아이디어</h4>
+        <p>${escapeHtml(p.variation)}</p>
+      </div>
+    </article>
+  `).join('');
+}
+
+function togglePrompt(id, button){
+  const el = document.getElementById(id);
+  const isOpen = el.style.display === 'block';
+  el.style.display = isOpen ? 'none' : 'block';
+  button.setAttribute('aria-expanded', String(!isOpen));
+  button.textContent = isOpen ? '프롬프트 보기' : '프롬프트 닫기';
+}
+
+function copyPrompt(id, ev){
+  ev.stopPropagation();
+  const el = document.getElementById(id);
+  const clone = el.cloneNode(true);
+  const btn = clone.querySelector('button');
+  if(btn) btn.remove();
+  navigator.clipboard.writeText(clone.innerText.trim()).then(()=>alert('프롬프트를 복사했습니다.'));
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderPrompts();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input',renderPrompts);
+
+document.querySelectorAll('[data-link-needed]').forEach(link=>{
+  link.addEventListener('click',event=>{
+    event.preventDefault();
+    alert(`${link.dataset.linkNeeded} 연결 주소를 등록하면 바로 열리도록 준비된 버튼입니다.`);
+  });
+});
+
+function presetFilter(category){
+  activeFilter = category;
+  document.querySelectorAll('.filter-btn').forEach(b=> b.classList.toggle('active',b.dataset.filter===category));
+  setTimeout(renderPrompts,30);
+}
+
+renderPrompts();
+</script>
+</body>
+</html>
+
+
