@@ -24,7 +24,7 @@ section.panel{display:none}section.panel.show{display:block}.note{padding:13px 1
 h2{font-size:21px;margin:26px 0 12px}.muted{color:var(--muted)}.smalltext{font-size:12px}.form{display:grid;gap:13px;background:#fff;border:1px solid var(--line);padding:20px;border-radius:18px}
 label{display:grid;gap:5px;font-size:13px;font-weight:650}input,textarea,select{width:100%;background:#fff;padding:10px 12px;border-radius:9px;border:1px solid #dcd6da;color:var(--ink);font:inherit}textarea{min-height:118px;resize:vertical}
 .columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.upload{border:2px dashed #b6a7c4;background:#faf7ff;border-radius:14px;padding:23px;text-align:center}
-.preview{width:100%;max-height:230px;object-fit:contain;border-radius:9px;background:#f4f1ee;margin-top:10px}.pre{white-space:pre-wrap;max-height:180px;overflow:auto;background:#faf8f6;border:1px solid var(--line);border-radius:9px;padding:12px;font-size:12px;color:#4b465a}
+.import-file-list{margin:12px auto 0;padding:0;max-width:780px;list-style:none;text-align:left}.import-file-list li{padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}.import-result{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}.import-result h3{font-size:15px;margin:2px 0 10px}.import-success{color:#245c45}.import-error{color:#a73e48}.preview{width:100%;max-height:230px;object-fit:contain;border-radius:9px;background:#f4f1ee;margin-top:10px}.pre{white-space:pre-wrap;max-height:180px;overflow:auto;background:#faf8f6;border:1px solid var(--line);border-radius:9px;padding:12px;font-size:12px;color:#4b465a}
 .empty{background:#fff;border:1px dashed #d6ccd5;padding:30px;text-align:center;border-radius:13px;color:var(--muted)}
 footer{text-align:center;border-top:1px solid var(--line);padding:25px;color:var(--muted);font-size:12px}
 @media(max-width:650px){.columns{grid-template-columns:1fr}.hero{padding:24px}.card{padding:16px}}
@@ -50,7 +50,16 @@ footer{text-align:center;border-top:1px solid var(--line);padding:25px;color:var
 <label>이미지 파일 (선택)<input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp"></label>
 <div class="row"><button class="primary" type="submit">내 보관함에 저장</button><button type="reset">입력 초기화</button></div></form></section>
 <section id="import" class="panel">
-<h2>문서 자동 분류</h2><div class="upload"><p><b>수업자료 · 프롬프트 문서를 한 번에 등록</b></p><p class="muted smalltext">TXT · MD · CSV · JSON · HTML · DOCX · PPTX · HWPX · PDF</p><input id="docsInput" type="file" multiple accept=".txt,.md,.csv,.json,.html,.htm,.docx,.pptx,.hwpx,.pdf"><div class="smalltext muted">문서 내용과 제목의 키워드로 분야를 추천합니다. AI 의미 분석은 아닙니다.</div></div><div id="importStatus" class="note" role="status">업로드한 문서는 이 브라우저에만 저장됩니다. 스캔 PDF 및 구형 HWP 파일은 분석이 어려울 수 있습니다.</div>
+<h2>문서 자동 분류</h2>
+<div class="upload">
+<p><b>수업자료 · 프롬프트 문서를 한 번에 등록</b></p>
+<p class="muted smalltext">TXT · MD · CSV · JSON · HTML · DOCX · PPTX · HWPX · PDF</p>
+<button class="primary" id="chooseDocs" type="button">＋ 문서 파일 선택</button>
+<input id="docsInput" type="file" multiple accept=".txt,.md,.csv,.json,.html,.htm,.docx,.pptx,.hwpx,.pdf" hidden aria-label="업로드할 문서 선택">
+<p class="smalltext muted" id="selectedFilesInfo">아직 선택한 문서가 없습니다. 여러 파일을 동시에 선택할 수 있습니다.</p>
+<div class="smalltext muted">문서 내용과 제목의 키워드로 분야를 추천합니다. AI 의미 분석은 아닙니다.</div></div>
+<div id="importStatus" class="note" role="status">업로드하면 문서 내용을 추출하여 이 브라우저에 저장합니다. 원본 파일 자체는 저장하지 않습니다. 스캔 PDF 및 구형 HWP 파일은 분석이 어려울 수 있습니다.</div>
+<div id="importResults" class="import-result" hidden><h3>최근 업로드 결과</h3><ul id="importFileList" class="import-file-list"></ul><div class="actions"><button type="button" class="primary" id="goToSaved">저장된 문서 확인하기 →</button><button type="button" id="clearImportResult">결과 목록 지우기</button></div></div>
 </section>
 <section id="help" class="panel">
 <h2>수강생 사용 안내</h2>
@@ -87,7 +96,70 @@ function useJSZip(){if(window.JSZip)return Promise.resolve(window.JSZip);if(!jsz
 let pdfPromise;
 function usePDF(){if(window.pdfjsLib)return Promise.resolve(window.pdfjsLib);if(!pdfPromise)pdfPromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";s.onload=()=>{window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";resolve(window.pdfjsLib)};s.onerror=()=>reject(Error("PDF 분석 모듈을 내려받지 못했습니다."));document.head.append(s);});return pdfPromise;}
 async function extract(file){const ext=file.name.split(".").pop().toLowerCase();if(["txt","md","csv","json","html","htm"].includes(ext)){const t=await file.text();return ext==="html"||ext==="htm"?new DOMParser().parseFromString(t,"text/html").body.textContent:t;}if(["docx","pptx","hwpx"].includes(ext)){const JSZip=await useJSZip(),z=await JSZip.loadAsync(file);let paths=Object.keys(z.files).filter(n=>ext==="docx"?n==="word/document.xml":ext==="pptx"?/^ppt\/slides\/slide\d+\.xml$/.test(n):/^Contents\/section\d+\.xml$/i.test(n));paths.sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));let chunks=[];for(const p of paths.slice(0,50)){chunks.push(cleanXML(await z.file(p).async("string")));}return chunks.join("\n");}if(ext==="pdf"){const pdfjs=await usePDF(),data=await file.arrayBuffer(),pdf=await pdfjs.getDocument({data}).promise;let pages=[];for(let i=1;i<=Math.min(pdf.numPages,30);i++){const page=await pdf.getPage(i),t=await page.getTextContent();pages.push(t.items.map(x=>x.str).join(" "));}return pages.join("\n");}throw Error("지원하지 않는 문서 형식입니다.");}
-$("#docsInput").addEventListener("change",async e=>{const files=[...e.target.files].slice(0,20);let done=0,errors=[];$("#importStatus").textContent="문서 분석 중...";for(const file of files){if(file.size>20*1024*1024){errors.push(file.name+" (20MB 초과)");continue;}try{const content=(await extract(file)).trim();if(content.length<8)throw Error("텍스트를 읽을 수 없는 문서");const record={id:id(),title:file.name.replace(/\.[^.]+$/,""),category:classify(file.name+" "+content.slice(0,8000)),ratio:"기타",ko:content.slice(0,16000),en:"",video:"",image:"",created:new Date().toISOString(),source:"문서: "+file.name};await tx("readwrite","put",record);done++;}catch(err){errors.push(file.name+" ("+err.message+")");}}$("#importStatus").textContent=done+"개 문서 저장 완료."+ (errors.length?" 분석 실패: "+errors.join(" / "):"")+" '나의 보관함'에서 확인하고 분류를 조정하세요.";e.target.value="";});
+
+$("#chooseDocs").addEventListener("click",()=>$("#docsInput").click());
+$("#goToSaved").addEventListener("click",()=>show("mine"));
+$("#clearImportResult").addEventListener("click",()=>{
+  $("#importResults").hidden=true;
+  $("#importFileList").textContent="";
+  $("#selectedFilesInfo").textContent="새 문서를 선택해 주세요.";
+  $("#importStatus").textContent="최근 업로드 결과를 지웠습니다. 이미 저장된 문서는 '나의 보관함'에 그대로 있습니다.";
+});
+$("#docsInput").addEventListener("change",async e=>{
+  const files=[...e.target.files].slice(0,20);
+  if(!files.length)return;
+  const choose=$("#chooseDocs");
+  choose.disabled=true;
+  $("#selectedFilesInfo").textContent="선택한 문서 "+files.length+"개: "+files.map(f=>f.name).join(", ");
+  $("#importStatus").textContent="문서 내용을 분석하고 있습니다. 업로드 결과가 아래에 표시됩니다.";
+  $("#importResults").hidden=false;
+  const list=$("#importFileList");
+  list.textContent="";
+  let done=0,skipped=0,errors=[];
+  try{
+    if(!db)throw Error("보관함 초기화가 끝나지 않았습니다. 잠시 후 다시 선택해 주세요.");
+    const existing=await tx("readonly","all");
+    for(const file of files){
+      const line=document.createElement("li");
+      line.textContent="분석 중: "+file.name;
+      list.append(line);
+      if(file.size>20*1024*1024){line.textContent="실패: "+file.name+" · 20MB를 초과했습니다.";line.className="import-error";errors.push(file.name);continue;}
+      try{
+        const content=(await extract(file)).trim();
+        if(content.length<8)throw Error("텍스트를 읽을 수 없는 문서");
+        const excerpt=content.slice(0,16000);
+        const source="문서: "+file.name;
+        const category=classify(file.name+" "+content.slice(0,8000));
+        if(existing.some(r=>r.source===source&&r.ko===excerpt)){
+          skipped++;
+          line.className="";
+          line.textContent="중복 건너뜀 · "+file.name+" (이미 보관함에 저장됨)";
+          continue;
+        }
+        const record={id:id(),title:file.name.replace(/\.[^.]+$/,""),category,ratio:"기타",ko:excerpt,en:"",video:"",image:"",created:new Date().toISOString(),source};
+        await tx("readwrite","put",record);
+        existing.push(record);
+        done++;
+        line.className="import-success";
+        line.textContent="저장 완료 · "+file.name+" → "+category;
+      }catch(err){
+        line.className="import-error";
+        line.textContent="실패 · "+file.name+" → "+err.message;
+        errors.push(file.name);
+      }
+    }
+    $("#importStatus").textContent="추출된 문서 내용 "+done+"개 저장 완료"+
+      (skipped?", 이미 저장된 문서 "+skipped+"개 제외":"")+
+      (errors.length?", 실패 "+errors.length+"개":"")+
+      ". 아래에 파일명과 분류 결과가 표시됩니다. '저장된 문서 확인하기'를 눌러주세요.";
+    $("#selectedFilesInfo").textContent="마지막 선택: "+files.map(f=>f.name).join(", ")+" · 처리 완료 (다른 파일을 선택할 수 있습니다)";
+  }catch(err){
+    $("#importStatus").textContent="업로드 진행 오류: "+err.message;
+  }finally{
+    e.target.value="";
+    choose.disabled=false;
+  }
+});
 let deferredInstall=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").hidden=false;});$("#installBtn").onclick=async()=>{if(deferredInstall){await deferredInstall.prompt();deferredInstall=null;}};
 if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("./sw.js").catch(()=>{});
 dbOpen().then(x=>{db=x;renderMine();}).catch(()=>{$("#importStatus").textContent="이 브라우저에서 저장 기능을 사용할 수 없습니다. 일반 Chrome 또는 Safari를 이용해 주세요.";});
