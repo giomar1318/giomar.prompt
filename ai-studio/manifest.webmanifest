@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "GIOMAR AI STUDIO - 수강생 프롬프트 자료실",
+  "short_name": "GIOMAR STUDIO",
+  "description": "AI 작품과 프롬프트 공개 자료실, 개인 작품 보관함",
+  "lang": "ko-KR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f6f3",
+  "theme_color": "#181c33",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
