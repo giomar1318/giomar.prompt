@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#181c33">
+<meta name="description" content="GIOMAR AI 프롬프트 공유 자료실과 나의 작품 보관함">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<title>GIOMAR AI STUDIO | 프롬프트·작품 자료실</title>
+<style>
+:root{--navy:#181c33;--lav:#eee8f6;--gold:#b79a64;--ink:#29273b;--muted:#6b6977;--line:#e8e2e5;--paper:#fffefa}
+*{box-sizing:border-box}body{margin:0;background:#f8f6f3;color:var(--ink);font:15px/1.65 system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+header{background:var(--navy);color:#fff;padding:23px max(5vw,18px)}.head{max-width:1080px;margin:auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font:700 18px Georgia,serif;letter-spacing:2px}.brand small{display:block;font:400 11px system-ui;letter-spacing:1px;color:#c8bdd1}
+header a{color:#e9d7a9;text-decoration:none;font-size:12px}
+main{max-width:1080px;margin:auto;padding:30px 16px 65px}.hero{border-radius:23px;background:linear-gradient(120deg,#23243e,#544366);color:white;padding:34px 32px;margin-bottom:20px}
+.eyebrow{font-size:11px;letter-spacing:2px;color:#e5cc98}.hero h1{margin:7px 0 8px;font-size:clamp(23px,4vw,33px);line-height:1.4}.hero p{margin:0;max-width:680px;color:#e5e2eb;font-size:14px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:19px 0}button,.linkbtn{font:inherit;border:1px solid #ded6dc;border-radius:10px;padding:9px 13px;background:white;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.linkbtn:hover{border-color:#ad8cb4}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #ba9cd3;outline-offset:2px}
+button.primary,.active{background:var(--navy);color:white;border-color:var(--navy)}button.small{font-size:12px;padding:6px 9px}button.danger{color:#9b3f4e}
+section.panel{display:none}section.panel.show{display:block}.note{padding:13px 16px;border:1px solid #eddfc9;background:#fffaf0;border-radius:11px;font-size:13px;color:#6a5842;margin:15px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:15px}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 18px rgba(35,25,50,.03)}
+.card h3{margin:8px 0 6px;font-size:18px;line-height:1.4}.card p{color:var(--muted);font-size:13px;margin:8px 0}.pill{display:inline-block;background:var(--lav);border-radius:30px;color:#645073;font-size:11px;padding:2px 9px}
+.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.row.between{justify-content:space-between}.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+h2{font-size:21px;margin:26px 0 12px}.muted{color:var(--muted)}.smalltext{font-size:12px}.form{display:grid;gap:13px;background:#fff;border:1px solid var(--line);padding:20px;border-radius:18px}
+label{display:grid;gap:5px;font-size:13px;font-weight:650}input,textarea,select{width:100%;background:#fff;padding:10px 12px;border-radius:9px;border:1px solid #dcd6da;color:var(--ink);font:inherit}textarea{min-height:118px;resize:vertical}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.upload{border:2px dashed #b6a7c4;background:#faf7ff;border-radius:14px;padding:23px;text-align:center}
+.preview{width:100%;max-height:230px;object-fit:contain;border-radius:9px;background:#f4f1ee;margin-top:10px}.pre{white-space:pre-wrap;max-height:180px;overflow:auto;background:#faf8f6;border:1px solid var(--line);border-radius:9px;padding:12px;font-size:12px;color:#4b465a}
+.empty{background:#fff;border:1px dashed #d6ccd5;padding:30px;text-align:center;border-radius:13px;color:var(--muted)}
+footer{text-align:center;border-top:1px solid var(--line);padding:25px;color:var(--muted);font-size:12px}
+@media(max-width:650px){.columns{grid-template-columns:1fr}.hero{padding:24px}.card{padding:16px}}
+</style></head>
+<body>
+<header><div class="head"><div class="brand">GIOMAR <span style="color:#d6c192">AI STUDIO</span><small>AI ART & PROMPT CLASSROOM</small></div><a href="../">기존 프롬프트 자료실 보기 ↗</a></div></header>
+<main>
+<div class="hero"><div class="eyebrow">CREATE · ARCHIVE · SHARE</div><h1>이미지 한 장에서 시작되는<br>나만의 창작 기록</h1><p>공개 프롬프트를 복사해 실습하고, 직접 만든 이미지와 프롬프트를 브라우저에 보관해 보세요. 문서를 올리면 키워드에 따라 작품 분야를 제안합니다.</p></div>
+<nav aria-label="자료실 메뉴"><button class="active" data-view="public">✦ 공개 프롬프트</button><button data-view="mine">▤ 나의 보관함</button><button data-view="write">＋ 작품 등록</button><button data-view="import">⇧ 문서 자동 분류</button><button data-view="help">ⓘ 사용 안내</button></nav>
+<section id="public" class="panel show">
+<div class="row between"><h2>수강생 실습 프롬프트</h2><a class="linkbtn" href="../#library">전체 프롬프트 자료실 ↗</a></div>
+<div class="grid" id="featured"></div>
+<div class="note">이곳은 공개 자료실입니다. 실제 이미지는 수업 실습으로 생성한 뒤, 아래 '나의 보관함'에 직접 등록할 수 있습니다.</div>
+</section>
+<section id="mine" class="panel">
+<div class="row between"><h2>나의 작품 보관함 <span id="count"></span></h2><div class="row"><button class="small" id="backup">JSON 백업</button><button class="small" id="restoreBtn">백업 복원</button><input id="restoreFile" type="file" accept=".json" hidden></div></div>
+<div class="note"><b>개인 저장 공간:</b> 업로드한 이미지와 문서는 GitHub로 전송되지 않습니다. 이 기기·브라우저에만 저장되며 선생님이나 다른 수강생에게 자동 공유되지 않습니다. 브라우저 데이터를 지우기 전 백업하세요.</div>
+<div class="grid" id="myCards"></div></section>
+<section id="write" class="panel">
+<h2>새 작품 기록</h2>
+<form id="artForm" class="form">
+<label>작품 제목<input id="titleInput" required maxlength="100" placeholder="예: 달항아리에 담긴 제주의 밤"></label>
+<div class="columns"><label>분류<select id="categoryInput"><option>나전칠기·칠보</option><option>제주·설화</option><option>한국 전통미술</option><option>그림동화</option><option>수채화·회화</option><option>캐릭터·웹툰</option><option>미디어아트</option><option>교육자료·강의안</option><option>프롬프트 모음</option><option>기타</option></select></label>
+<label>이미지 비율<select id="ratioInput"><option>9:16</option><option>1:1</option><option>16:9</option><option>4:5</option><option>기타</option></select></label></div>
+<label>한국어 이미지 프롬프트<textarea id="koInput" placeholder="주제, 구도, 재질, 조명, 색채를 설명하세요"></textarea></label>
+<label>영어 이미지 프롬프트<textarea id="enInput" placeholder="Optional English prompt"></textarea></label>
+<label>영상 프롬프트<textarea id="videoInput" placeholder="움직임과 카메라 연출을 기록하세요"></textarea></label>
+<label>이미지 파일 (선택)<input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp"></label>
+<div class="row"><button class="primary" type="submit">내 보관함에 저장</button><button type="reset">입력 초기화</button></div></form></section>
+<section id="import" class="panel">
+<h2>문서 자동 분류</h2><div class="upload"><p><b>수업자료 · 프롬프트 문서를 한 번에 등록</b></p><p class="muted smalltext">TXT · MD · CSV · JSON · HTML · DOCX · PPTX · HWPX · PDF</p><input id="docsInput" type="file" multiple accept=".txt,.md,.csv,.json,.html,.htm,.docx,.pptx,.hwpx,.pdf"><div class="smalltext muted">문서 내용과 제목의 키워드로 분야를 추천합니다. AI 의미 분석은 아닙니다.</div></div><div id="importStatus" class="note" role="status">업로드한 문서는 이 브라우저에만 저장됩니다. 스캔 PDF 및 구형 HWP 파일은 분석이 어려울 수 있습니다.</div>
+</section>
+<section id="help" class="panel">
+<h2>수강생 사용 안내</h2>
+<div class="grid"><article class="card"><h3>1. 프롬프트 복사</h3><p>공개 프롬프트에서 '복사'를 눌러 ChatGPT 또는 이미지 AI에 붙여넣으세요.</p></article><article class="card"><h3>2. 이미지와 함께 저장</h3><p>완성된 이미지와 프롬프트를 '작품 등록'에 넣으면 현재 브라우저에 보관됩니다.</p></article><article class="card"><h3>3. 문서 분류</h3><p>DOCX 등 수업 자료를 업로드하면 텍스트를 읽어 키워드 기반 카테고리로 저장합니다.</p></article><article class="card"><h3>4. 내보내기</h3><p>작품별 공유 HTML을 내려받을 수 있지만, 선생님 자료실에 자동 게시되지는 않습니다.</p></article></div>
+<div class="note"><b>홈 화면 바로가기:</b> Android Chrome 메뉴(⋮) → '홈 화면에 추가' 또는 '앱 설치'. iPhone Safari 공유 → '홈 화면에 추가'. 개인정보나 학생 얼굴이 담긴 문서는 공개 파일로 배포하지 마세요.</div>
+<button id="installBtn" hidden class="primary">앱 설치</button>
+</section>
+</main><footer>© GIOMAR AI STUDIO · 수강생용 실습 자료실 · <a href="../">GIOMAR Prompt Archive</a></footer>
+<script>
+"use strict";
+const samples=[
+{title:"달항아리에 담긴 제주의 밤",category:"나전칠기·칠보",ratio:"9:16",intro:"한국 전통 달항아리, 제주 바다의 윤슬과 자개빛 오름",ko:"고요한 검은 옻칠 배경 위에 한국 전통 백자 달항아리 한 점이 중심에 놓여 있다. 달항아리의 표면 안에는 제주의 밤바다와 부드러운 오름 능선, 잔잔한 달빛 윤슬이 펼쳐진다. 물결은 영롱한 진주빛·은빛·청록빛·라벤더빛 자개 조각의 나전칠기 질감으로 묘사하고, 하늘의 장식은 섬세한 금속선으로 나눈 전통 유선칠보의 사파이어 남청색과 보랏빛 유리질 색감으로 표현한다. 절제된 샴페인 골드와 한국적인 여백, 정교하고 우아한 공예 미디어아트. 세로 9:16, 글자 없음."},
+{title:"달빛에 머무는 작은 꿈",category:"나전칠기·칠보",ratio:"9:16",intro:"거대한 자개 초승달 위에 앉아 밤하늘을 바라보는 두 아이",ko:"마법처럼 신비로운 밤의 숲. 거대한 초승달 위에 두 아이가 꽃과 고사리 사이에 평화롭게 앉아 있다. 한국 전통 칠보 공예와 나전칠기의 섬세한 아름다움, 깊은 사파이어 남청색과 미드나이트 청록빛 밤하늘, 부드러운 라벤더와 보랏빛, 에메랄드빛 잎사귀, 절제된 샴페인 골드 장식. 영롱한 자개 광택과 섬세한 금빛 윤곽선, 따뜻한 동화적 감성, 신비로운 별빛, 세로 9:16, 글자 없음."}
+];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let db=null,records=[];
+function tx(mode,operation,item){return new Promise((resolve,reject)=>{const t=db.transaction("works",mode),store=t.objectStore("works");const q=operation==="all"?store.getAll():operation==="delete"?store.delete(item):store.put(item);q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error);});}
+function dbOpen(){return new Promise((resolve,reject)=>{const q=indexedDB.open("GIOMAR_STUDENT_STUDIO_1",1);q.onupgradeneeded=()=>{if(!q.result.objectStoreNames.contains("works"))q.result.createObjectStore("works",{keyPath:"id"});};q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error);});}
+function show(id){document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("show",x.id===id));document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x.dataset.view===id));if(id==="mine")renderMine();window.scrollTo({top:0,behavior:"smooth"});}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
+async function copyText(s){try{await navigator.clipboard.writeText(s);alert("프롬프트를 복사했습니다.");}catch(e){const a=document.createElement("textarea");a.value=s;document.body.append(a);a.select();document.execCommand("copy");a.remove();alert("복사했습니다.");}}
+function renderSamples(){const el=$("#featured");el.textContent="";samples.forEach((s,i)=>{let d=document.createElement("article");d.className="card";d.innerHTML='<span class="pill">'+esc(s.category)+'</span><h3>'+esc(s.title)+'</h3><p>'+esc(s.intro)+'</p><div class="pre">'+esc(s.ko)+'</div><div class="actions"><button class="primary small" data-copy="'+i+'">한국어 프롬프트 복사</button><button class="small" data-use="'+i+'">내 작품에 활용</button></div>';el.append(d);});}
+$("#featured").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;let i=Number(b.dataset.copy??b.dataset.use);if(!Number.isInteger(i))return;if(b.hasAttribute("data-copy"))copyText(samples[i].ko);else{$("#titleInput").value=samples[i].title+" - 나의 재해석";$("#koInput").value=samples[i].ko;$("#categoryInput").value=samples[i].category;$("#ratioInput").value=samples[i].ratio;show("write");}});
+function id(){return "w-"+Date.now()+"-"+Math.random().toString(36).slice(2,9);}
+function fileData(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(file);});}
+async function resizeImage(file){if(file.size>12*1024*1024)throw Error("이미지는 12MB 이하만 등록해 주세요.");const source=await fileData(file);return new Promise(resolve=>{const image=new Image();image.onload=()=>{try{const w=Math.min(1200,image.width),h=Math.round(image.height*w/image.width);const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.getContext("2d").drawImage(image,0,0,w,h);resolve(canvas.toDataURL("image/jpeg",0.82));}catch(e){resolve(source);}};image.onerror=()=>resolve(source);image.src=source;});}
+$("#artForm").addEventListener("submit",async e=>{e.preventDefault();if(!db){alert("저장 기능을 사용할 수 없습니다.");return;}try{const file=$("#imageInput").files[0];const record={id:id(),title:$("#titleInput").value.trim(),category:$("#categoryInput").value,ratio:$("#ratioInput").value,ko:$("#koInput").value,en:$("#enInput").value,video:$("#videoInput").value,image:file?await resizeImage(file):"",created:new Date().toISOString(),source:"직접 입력"};await tx("readwrite","put",record);$("#artForm").reset();show("mine");}catch(err){alert("저장 실패: "+err.message);}});
+async function renderMine(){if(!db)return;records=(await tx("readonly","all")).sort((a,b)=>(b.created||"").localeCompare(a.created||""));$("#count").textContent="("+records.length+")";const root=$("#myCards");root.textContent="";if(!records.length){root.innerHTML='<div class="empty">아직 저장된 작품이 없습니다.<br>작품 등록 또는 문서 자동 분류로 시작하세요.</div>';return;}for(const r of records){const div=document.createElement("article");div.className="card";div.innerHTML='<span class="pill">'+esc(r.category)+'</span><h3>'+esc(r.title)+'</h3><p>'+esc(r.source||"직접 입력")+' · '+esc(r.ratio||"")+'</p>'+(r.image?'<img class="preview" alt="내가 업로드한 작품 이미지" src="'+esc(r.image)+'">':'')+'<div class="pre">'+esc((r.ko||r.en||r.video||"내용 없음").slice(0,1600))+'</div><div class="actions"><button class="small primary" data-action="copy">프롬프트 복사</button><button class="small" data-action="share">공유 HTML 저장</button><button class="small danger" data-action="delete">삭제</button></div>';div.querySelectorAll("button").forEach(b=>b.addEventListener("click",async()=>{const act=b.dataset.action;if(act==="copy")copyText(r.ko||r.en||r.video||"");if(act==="delete"){if(confirm("이 작품을 삭제할까요?")){await tx("readwrite","delete",r.id);renderMine();}}if(act==="share")share(r);}));root.append(div);}}
+function download(blob,name){const a=document.createElement("a"),u=URL.createObjectURL(blob);a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);}
+function share(r){if(!confirm("이 작품의 이미지와 프롬프트를 외부 배포 가능한 HTML 파일로 만듭니다. 개인정보와 저작권을 확인하셨나요?"))return;const doc='<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'+esc(r.title)+'</title><style>body{max-width:760px;margin:40px auto;padding:20px;font:16px/1.8 system-ui;color:#262236;background:#fbfaf8}img{width:100%;max-height:650px;object-fit:contain}pre{white-space:pre-wrap;background:#fff;padding:20px;border:1px solid #ddd;border-radius:12px}</style><h1>'+esc(r.title)+'</h1><p>'+esc(r.category)+'</p>'+(r.image?'<img src="'+esc(r.image)+'" alt="작품 이미지">':'')+'<h2>한국어 이미지 프롬프트</h2><pre>'+esc(r.ko)+'</pre><h2>영어 이미지 프롬프트</h2><pre>'+esc(r.en)+'</pre><h2>영상 프롬프트</h2><pre>'+esc(r.video)+'</pre><p>© GIOMAR AI STUDIO에서 생성한 개인 공유 파일</p></html>';download(new Blob([doc],{type:"text/html;charset=utf-8"}),"GIOMAR_"+r.id+".html");}
+$("#backup").onclick=async()=>{if(!db)return;const r=await tx("readonly","all");download(new Blob([JSON.stringify({version:1,works:r},null,2)],{type:"application/json"}),"GIOMAR_나의_작품_백업.json");};
+$("#restoreBtn").onclick=()=>$("#restoreFile").click();
+$("#restoreFile").onchange=async e=>{try{const f=e.target.files[0];if(!f)return;const payload=JSON.parse(await f.text());if(!Array.isArray(payload.works))throw Error("올바른 백업 JSON이 아닙니다.");if(!confirm(payload.works.length+"개 작품을 내 보관함에 복원할까요?"))return;for(const r of payload.works){if(!r.id||typeof r.title!=="string")continue;await tx("readwrite","put",r);}await renderMine();alert("복원 완료");}catch(err){alert("복원 실패: "+err.message)}finally{e.target.value="";}};
+const categories=[["나전칠기·칠보",/자개|칠보|나전|옻칠|cloisonn|mother.of.pearl|pearl inlay/i],["제주·설화",/제주|해녀|오름|영등|설문대|본풀이|Jeju|현무암/i],["그림동화",/그림책|동화|스토리|아동|유아|storybook/i],["캐릭터·웹툰",/웹툰|캐릭터|인스타툰|comic/i],["미디어아트",/영상|숏폼|미디어아트|camera|video/i],["교육자료·강의안",/수업|강의|차시|학습|교육|수강생/i],["수채화·회화",/수채|유화|인상주의|watercolor|painting/i],["한국 전통미술",/한복|한국 전통|문양|민화|백자/i]];
+function classify(t){for(const [c,re] of categories)if(re.test(t))return c;return "프롬프트 모음";}
+function cleanXML(text){const xml=new DOMParser().parseFromString(text,"application/xml");return(xml.documentElement?.textContent||"").replace(/\s+/g," ").trim();}
+let jszipPromise;
+function useJSZip(){if(window.JSZip)return Promise.resolve(window.JSZip);if(!jszipPromise)jszipPromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";s.onload=()=>resolve(window.JSZip);s.onerror=()=>reject(Error("DOCX 분석 모듈을 내려받지 못했습니다. 인터넷 연결을 확인해 주세요."));document.head.append(s);});return jszipPromise;}
+let pdfPromise;
+function usePDF(){if(window.pdfjsLib)return Promise.resolve(window.pdfjsLib);if(!pdfPromise)pdfPromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";s.onload=()=>{window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";resolve(window.pdfjsLib)};s.onerror=()=>reject(Error("PDF 분석 모듈을 내려받지 못했습니다."));document.head.append(s);});return pdfPromise;}
+async function extract(file){const ext=file.name.split(".").pop().toLowerCase();if(["txt","md","csv","json","html","htm"].includes(ext)){const t=await file.text();return ext==="html"||ext==="htm"?new DOMParser().parseFromString(t,"text/html").body.textContent:t;}if(["docx","pptx","hwpx"].includes(ext)){const JSZip=await useJSZip(),z=await JSZip.loadAsync(file);let paths=Object.keys(z.files).filter(n=>ext==="docx"?n==="word/document.xml":ext==="pptx"?/^ppt\/slides\/slide\d+\.xml$/.test(n):/^Contents\/section\d+\.xml$/i.test(n));paths.sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));let chunks=[];for(const p of paths.slice(0,50)){chunks.push(cleanXML(await z.file(p).async("string")));}return chunks.join("\n");}if(ext==="pdf"){const pdfjs=await usePDF(),data=await file.arrayBuffer(),pdf=await pdfjs.getDocument({data}).promise;let pages=[];for(let i=1;i<=Math.min(pdf.numPages,30);i++){const page=await pdf.getPage(i),t=await page.getTextContent();pages.push(t.items.map(x=>x.str).join(" "));}return pages.join("\n");}throw Error("지원하지 않는 문서 형식입니다.");}
+$("#docsInput").addEventListener("change",async e=>{const files=[...e.target.files].slice(0,20);let done=0,errors=[];$("#importStatus").textContent="문서 분석 중...";for(const file of files){if(file.size>20*1024*1024){errors.push(file.name+" (20MB 초과)");continue;}try{const content=(await extract(file)).trim();if(content.length<8)throw Error("텍스트를 읽을 수 없는 문서");const record={id:id(),title:file.name.replace(/\.[^.]+$/,""),category:classify(file.name+" "+content.slice(0,8000)),ratio:"기타",ko:content.slice(0,16000),en:"",video:"",image:"",created:new Date().toISOString(),source:"문서: "+file.name};await tx("readwrite","put",record);done++;}catch(err){errors.push(file.name+" ("+err.message+")");}}$("#importStatus").textContent=done+"개 문서 저장 완료."+ (errors.length?" 분석 실패: "+errors.join(" / "):"")+" '나의 보관함'에서 확인하고 분류를 조정하세요.";e.target.value="";});
+let deferredInstall=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").hidden=false;});$("#installBtn").onclick=async()=>{if(deferredInstall){await deferredInstall.prompt();deferredInstall=null;}};
+if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("./sw.js").catch(()=>{});
+renderSamples();dbOpen().then(x=>{db=x;}).catch(()=>{$("#importStatus").textContent="이 브라우저에서 저장 기능을 사용할 수 없습니다. 일반 Chrome 또는 Safari를 이용해 주세요.";});
+</script></body></html>
