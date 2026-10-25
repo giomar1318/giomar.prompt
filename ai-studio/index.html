@@ -58,12 +58,12 @@ footer{text-align:center;border-top:1px solid var(--line);padding:25px;color:var
 <input id="docsInput" type="file" multiple accept=".txt,.md,.csv,.json,.html,.htm,.docx,.pptx,.hwpx,.pdf" hidden aria-label="업로드할 문서 선택">
 <p class="smalltext muted" id="selectedFilesInfo">아직 선택한 문서가 없습니다. 여러 파일을 동시에 선택할 수 있습니다.</p>
 <div class="smalltext muted">문서 내용과 제목의 키워드로 분야를 추천합니다. AI 의미 분석은 아닙니다.</div></div>
-<div id="importStatus" class="note" role="status">업로드하면 문서의 텍스트와 인식 가능한 포함 이미지를 이 브라우저에 저장합니다. PDF는 첫 페이지 미리보기를 사용합니다. 원본 문서 파일 자체는 저장하지 않습니다. 스캔 PDF 및 구형 HWP 파일은 분석이 어려울 수 있습니다.</div>
+<div id="importStatus" class="note" role="status">업로드하면 문서의 텍스트와 인식 가능한 작품 이미지를 브라우저에 저장합니다. PDF는 포함된 실제 그림을 찾고, 그림이 없는 문서는 이미지 첨부로 연결합니다. 원본 문서 파일 자체는 저장하지 않습니다. 스캔 PDF 및 구형 HWP 파일은 분석이 어려울 수 있습니다.</div>
 <div id="importResults" class="import-result" hidden><h3>최근 업로드 결과</h3><ul id="importFileList" class="import-file-list"></ul><div class="actions"><button type="button" class="primary" id="goToSaved">저장된 문서 확인하기 →</button><button type="button" id="clearImportResult">결과 목록 지우기</button></div></div>
 </section>
 <section id="help" class="panel">
 <h2>수강생 사용 안내</h2>
-<div class="grid"><article class="card"><h3>1. 작품 기록하기</h3><p>작품 등록에서 제목과 이미지 프롬프트를 입력하고 완성 이미지를 첨부하세요.</p></article><article class="card"><h3>2. 내 보관함에서 확인하기</h3><p>작품 이미지가 카드 상단에 나타납니다. 사진이 없는 기존 문서는 카드의 “이미지 첨부”를 눌러 추가할 수 있습니다. 자료는 현재 기기의 브라우저에 보관됩니다.</p></article><article class="card"><h3>3. 문서 자동 분류</h3><p>DOCX·PPTX·HWPX는 포함된 JPG/PNG/WebP 이미지 중 대표 이미지 1장을 함께 저장할 수 있습니다. PDF는 첫 페이지 미리보기를 표시합니다. 기존 자료에는 카드별 이미지 첨부 기능을 이용하세요. 분류는 수정할 수 있습니다.</p></article><article class="card"><h3>4. 백업·내보내기</h3><p>JSON 백업으로 자료를 보존하고, 선택한 작품만 별도 공유 HTML로 내보내세요. 다른 사용자에게 자동 전송되지는 않습니다.</p></article></div>
+<div class="grid"><article class="card"><h3>1. 작품 기록하기</h3><p>작품 등록에서 제목과 이미지 프롬프트를 입력하고 완성 이미지를 첨부하세요.</p></article><article class="card"><h3>2. 내 보관함에서 확인하기</h3><p>작품 이미지가 카드 상단에 나타납니다. 사진이 없는 기존 문서는 카드의 “이미지 첨부”를 눌러 추가할 수 있습니다. 자료는 현재 기기의 브라우저에 보관됩니다.</p></article><article class="card"><h3>3. 문서 자동 분류</h3><p>DOCX·PPTX·HWPX는 포함된 JPG/PNG/WebP 이미지 중 대표 이미지 1장을 함께 저장할 수 있습니다. PDF는 포함된 실제 그림 파일을 우선 추출합니다. 추출할 그림이 없으면 직접 첨부할 수 있습니다. 기존 자료에도 카드별 이미지 첨부 기능을 이용하세요. 분류는 수정할 수 있습니다.</p></article><article class="card"><h3>4. 백업·내보내기</h3><p>JSON 백업으로 자료를 보존하고, 선택한 작품만 별도 공유 HTML로 내보내세요. 다른 사용자에게 자동 전송되지는 않습니다.</p></article></div>
 <div class="note"><b>홈 화면 바로가기:</b> Android Chrome 메뉴(⋮) → '홈 화면에 추가' 또는 '앱 설치'. iPhone Safari 공유 → '홈 화면에 추가'. 개인정보나 학생 얼굴이 담긴 문서는 공개 파일로 배포하지 마세요.</div>
 <button id="installBtn" hidden class="primary">앱 설치</button>
 </section>
@@ -90,8 +90,9 @@ async function renderMine(){
   if(!records.length){root.innerHTML='<div class="empty">아직 저장된 작품이 없습니다.<br>작품 등록 또는 문서 자동 분류로 시작하세요.</div>';return;}
   for(const r of records){
     const div=document.createElement("article");div.className="card";
-    const cover=r.image?'<img class="gallery-cover" loading="lazy" alt="'+esc(r.title)+' 이미지" src="'+esc(r.image)+'"><p class="image-meta">'+esc(r.imageNote||"작품 이미지")+'</p>':'<div class="gallery-empty">🖼️ 등록된 이미지가 없습니다.<br>아래 ‘이미지 첨부’를 이용하세요.</div>';
-    div.innerHTML=cover+'<span class="pill">'+esc(r.category)+'</span><h3>'+esc(r.title)+'</h3><p>'+esc(r.source||"직접 입력")+' · '+esc(r.ratio||"")+'</p><div class="pre">'+esc((r.ko||r.en||r.video||"내용 없음").slice(0,1600))+'</div><div class="actions"><button class="small primary" data-action="copy">프롬프트 복사</button><button class="small" data-action="attach">'+(r.image?"이미지 교체":"이미지 첨부")+'</button>'+(r.image?'<button class="small" data-action="removeimage">이미지 제거</button>':'')+'<button class="small" data-action="share">공유 HTML 저장</button><button class="small" data-action="classify">분류 수정</button><button class="small danger" data-action="delete">삭제</button></div>';
+    const hasArtwork=Boolean(r.image)&&!/^PDF 첫 페이지 미리보기/.test(r.imageNote||"");
+    const cover=hasArtwork?'<img class="gallery-cover" loading="lazy" alt="'+esc(r.title)+' 이미지" src="'+esc(r.image)+'"><p class="image-meta">'+esc(r.imageNote||"작품 이미지")+'</p>' :'<div class="gallery-empty">🖼️ 실제 작품 이미지가 아직 없습니다.<br>아래 ‘이미지 첨부’를 이용하세요.</div>';
+    div.innerHTML=cover+'<span class="pill">'+esc(r.category)+'</span><h3>'+esc(r.title)+'</h3><p>'+esc(r.source||"직접 입력")+' · '+esc(r.ratio||"")+'</p><div class="pre">'+esc((r.ko||r.en||r.video||"내용 없음").slice(0,1600))+'</div><div class="actions"><button class="small primary" data-action="copy">프롬프트 복사</button><button class="small" data-action="attach">'+(hasArtwork?"이미지 교체":"이미지 첨부")+'</button>'+(r.image?'<button class="small" data-action="removeimage">이미지 제거</button>':'')+'<button class="small" data-action="share">공유 HTML 저장</button><button class="small" data-action="classify">분류 수정</button><button class="small danger" data-action="delete">삭제</button></div>';
     div.querySelectorAll("button").forEach(b=>b.addEventListener("click",async()=>{
       const act=b.dataset.action;
       if(act==="copy")copyText(r.ko||r.en||r.video||"");
@@ -127,6 +128,94 @@ let jszipPromise;
 function useJSZip(){if(window.JSZip)return Promise.resolve(window.JSZip);if(!jszipPromise)jszipPromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";s.onload=()=>resolve(window.JSZip);s.onerror=()=>reject(Error("DOCX 분석 모듈을 내려받지 못했습니다. 인터넷 연결을 확인해 주세요."));document.head.append(s);});return jszipPromise;}
 let pdfPromise;
 function usePDF(){if(window.pdfjsLib)return Promise.resolve(window.pdfjsLib);if(!pdfPromise)pdfPromise=new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";s.onload=()=>{window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";resolve(window.pdfjsLib)};s.onerror=()=>reject(Error("PDF 분석 모듈을 내려받지 못했습니다."));document.head.append(s);});return pdfPromise;}
+// Extract actual embedded PDF raster images. A page screenshot is never used as the artwork.
+function rasterToDataUrl(img){
+  if(!img)return null;
+  const w=Math.floor(img.width||img.bitmap?.width||0),h=Math.floor(img.height||img.bitmap?.height||0);
+  if(w<240||h<240||w*h>18000000)return null;
+  if(Math.max(w,h)/Math.min(w,h)>7)return null;
+  try{
+    const target=document.createElement("canvas");
+    const scale=Math.min(1,1200/w,1200/h);
+    target.width=Math.max(1,Math.round(w*scale));
+    target.height=Math.max(1,Math.round(h*scale));
+    const context=target.getContext("2d",{alpha:false});
+    context.fillStyle="#ffffff";context.fillRect(0,0,target.width,target.height);
+    if(img.bitmap){
+      context.drawImage(img.bitmap,0,0,target.width,target.height);
+    }else if(img.data&&img.data.length){
+      const bytes=img.data;
+      const pixels=w*h;
+      const channels=bytes.length===pixels*4?4:bytes.length===pixels*3?3:bytes.length===pixels?1:0;
+      if(!channels)return null;
+      const rgba=new Uint8ClampedArray(pixels*4);
+      for(let i=0;i<pixels;i++){
+        const p=i*4,j=i*channels;
+        if(channels===1)rgba[p]=rgba[p+1]=rgba[p+2]=bytes[j];
+        else{rgba[p]=bytes[j];rgba[p+1]=bytes[j+1];rgba[p+2]=bytes[j+2];}
+        rgba[p+3]=channels===4?bytes[j+3]:255;
+      }
+      const full=document.createElement("canvas");
+      full.width=w;full.height=h;
+      full.getContext("2d").putImageData(new ImageData(rgba,w,h),0,0);
+      context.drawImage(full,0,0,target.width,target.height);
+      full.width=0;full.height=0;
+    }else{
+      context.drawImage(img,0,0,target.width,target.height);
+    }
+    const url=target.toDataURL("image/jpeg",0.84);
+    target.width=0;target.height=0;
+    return url;
+  }catch(e){return null;}
+}
+async function findPdfArtwork(doc,pdfjs){
+  let best=null;
+  const imageOps=new Set([pdfjs.OPS.paintImageXObject,pdfjs.OPS.paintJpegXObject,pdfjs.OPS.paintInlineImageXObject]);
+  for(let i=1;i<=Math.min(doc.numPages,15);i++){
+    const page=await doc.getPage(i),ops=await page.getOperatorList();
+    const candidateIds=[],inline=[];
+    for(let j=0;j<ops.fnArray.length;j++){
+      const op=ops.fnArray[j];
+      if(!imageOps.has(op))continue;
+      const data=ops.argsArray[j]||[];
+      if(op===pdfjs.OPS.paintInlineImageXObject){if(data[0])inline.push(data[0]);continue;}
+      if(typeof data[0]==="string")candidateIds.push(data[0]);
+    }
+    if(!candidateIds.length&&!inline.length)continue;
+    const getImages=()=>{
+      const results=[...inline];
+      for(const key of new Set(candidateIds)){
+        try{
+          let img=null;
+          if(page.objs.has(key))img=page.objs.get(key);
+          else if(page.commonObjs.has(key))img=page.commonObjs.get(key);
+          if(img)results.push(img);
+        }catch(e){}
+      }
+      return results;
+    };
+    let candidates=getImages();
+    if(!candidates.length&&candidateIds.length){
+      try{
+        const viewport=page.getViewport({scale:0.6}),cv=document.createElement("canvas");
+        cv.width=Math.max(1,Math.ceil(viewport.width));
+        cv.height=Math.max(1,Math.ceil(viewport.height));
+        await page.render({canvasContext:cv.getContext("2d"),viewport}).promise;
+        cv.width=0;cv.height=0;
+        candidates=getImages();
+      }catch(e){}
+    }
+    for(const img of candidates){
+      const w=img.width||img.bitmap?.width||0,h=img.height||img.bitmap?.height||0;
+      if(w<240||h<240||w*h>18000000||Math.max(w,h)/Math.min(w,h)>7)continue;
+      const area=w*h;
+      if(best&&area<=best.area)continue;
+      const dataUrl=rasterToDataUrl(img);
+      if(dataUrl)best={dataUrl,area,page:i};
+    }
+  }
+  return best;
+}
 async function extractContent(file){
   const ext=file.name.split(".").pop().toLowerCase();
   if(["txt","md","csv","json","html","htm"].includes(ext)){
@@ -163,23 +252,22 @@ async function extractContent(file){
   if(ext==="pdf"){
     const pdfjs=await usePDF(),doc=await pdfjs.getDocument({data:await file.arrayBuffer()}).promise;
     const chunks=[];let image="",imageNote="";
-    for(let i=1;i<=Math.min(doc.numPages,30);i++){
-      const page=await doc.getPage(i);
-      const content=await page.getTextContent();
-      chunks.push(content.items.map(x=>x.str).join(" "));
-    }
     try{
-      const page=await doc.getPage(1),view=page.getViewport({scale:1});
-      const factor=Math.min(750/view.width,1100/view.height,1.8);
-      const viewport=page.getViewport({scale:factor}),canvas=document.createElement("canvas");
-      canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
-      const ctx=canvas.getContext("2d");
-      await page.render({canvasContext:ctx,viewport}).promise;
-      image=canvas.toDataURL("image/jpeg",0.78);
-      imageNote="PDF 첫 페이지 미리보기 (작품 이미지와 다를 수 있음)";
-      canvas.width=0;canvas.height=0;
-    }catch(e){}
-    if(doc.destroy)await doc.destroy();
+      for(let i=1;i<=Math.min(doc.numPages,30);i++){
+        const page=await doc.getPage(i),content=await page.getTextContent();
+        chunks.push(content.items.map(x=>x.str).join(" "));
+      }
+      // Look for embedded raster artwork, not the PDF page text preview.
+      const candidate=await findPdfArtwork(doc,pdfjs);
+      if(candidate){
+        image=candidate.dataUrl;
+        imageNote="PDF "+candidate.page+"페이지에 포함된 실제 이미지 자동 추출";
+      }else{
+        imageNote="PDF에서 독립된 그림 파일을 찾지 못함 · 이미지 첨부로 연결하세요";
+      }
+    }finally{
+      if(doc.destroy)await doc.destroy();
+    }
     return{text:chunks.join("\n"),image,imageNote};
   }
   throw Error("지원하지 않는 문서 형식입니다.");
@@ -220,7 +308,7 @@ $("#docsInput").addEventListener("change",async e=>{
         const category=classify(file.name+" "+content.slice(0,8000));
         const duplicate=existing.find(r=>r.source===source&&r.ko===excerpt);
         if(duplicate){
-          if(!duplicate.image&&parsed.image){
+          if((!duplicate.image||/^PDF 첫 페이지 미리보기/.test(duplicate.imageNote||""))&&parsed.image){
             duplicate.image=parsed.image;duplicate.imageNote=parsed.imageNote;
             await tx("readwrite","put",duplicate);skipped++;
             line.className="import-success";
@@ -237,7 +325,7 @@ $("#docsInput").addEventListener("change",async e=>{
         existing.push(record);
         done++;
         line.className="import-success";
-        line.textContent="저장 완료 · "+file.name+" → "+category+(parsed.image?" · 이미지 포함":" · 이미지 없음");
+        line.textContent="저장 완료 · "+file.name+" → "+category+(parsed.image?" · 실제 이미지 추출":" · 그림 미추출 (직접 첨부 가능)");
       }catch(err){
         line.className="import-error";
         line.textContent="실패 · "+file.name+" → "+err.message;
