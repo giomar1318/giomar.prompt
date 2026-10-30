@@ -61,8 +61,8 @@
  {id:'pdr',title:'The Public Domain Review',url:'https://publicdomainreview.org/',cat:'art',desc:'저작권 보호기간이 지난 역사·예술 자료를 소개하는 해외 아카이브.',type:'고전 자료',icon:'PD'},
  {id:'met',title:'The Met 컬렉션',url:'https://www.metmuseum.org/art/collection',cat:'art',desc:'메트로폴리탄 미술관의 작품 검색과 오픈 액세스 이미지 자료.',type:'미술관',icon:'ME'},
  {id:'artic',title:'시카고 미술관 컬렉션',url:'https://www.artic.edu/collection',cat:'art',desc:'시카고 아트 인스티튜트 작품 컬렉션. 개별 작품별 이용 조건 확인.',type:'미술관',icon:'AI'},
- {id:'taneung',title:'따능스쿨 공식 오픈채팅',url:'https://open.kakao.com/o/g4qOj9Zf',cat:'community',desc:'따능스쿨 공식 커뮤니티. 참여코드는 강사에게 별도 문의',type:'오픈채팅',icon:'톡'},
- {id:'aiclub',title:'AI 아티스트 클럽 오픈채팅',url:'https://open.kakao.com/o/gLh2ojre',cat:'community',desc:'AI 아티스트 클럽 공식 오픈채팅. AI 창작·전시·교류 정보를 함께 나누는 커뮤니티. 참여 비밀번호는 강사에게 별도 문의',type:'오픈채팅',icon:'톡',disabled:false},
+ {id:'taneung',title:'따능스쿨 공식 오픈채팅',url:'https://open.kakao.com/o/g4qOj9Zf',cat:'community',desc:'따능스쿨 공식 오픈채팅. 참여코드: 0110',type:'오픈채팅',icon:'톡'},
+ {id:'aiclub',title:'AI 아티스트 클럽 오픈채팅',url:'https://open.kakao.com/o/gLh2ojre',cat:'community',desc:'AI 아티스트 클럽 공식 오픈채팅. AI 창작·전시·교류 커뮤니티. 참여 비밀번호: 1221',type:'오픈채팅',icon:'톡',disabled:false},
  {id:'bookmark',title:'한눈에 북마크 확장 프로그램',url:'https://chromewebstore.google.com/detail/%ED%95%9C%EB%88%88%EC%97%90-%EB%B6%81%EB%A7%88%ED%81%AC/epmkbbnagogpihejoddddofefpepjpmj',cat:'tools',desc:'데스크톱 크롬에서 카테고리별 북마크를 펼쳐 관리하는 확장 프로그램.',type:'PC·Mac 도구',icon:'BM'},
  {id:'aipot',title:'AI-POT 자격 안내',url:'https://license.kpc.or.kr/nasec/qlfint/qlfint/selectAipot.do',cat:'tools',desc:'한국생산성본부의 AI 프롬프트 활용능력 자격 시험·출제 기준 안내.',type:'자격 정보',icon:'AP'},
  {id:'giomar-chatgpt-20261030',title:'처음부터 제대로 배우는 ChatGPT 실습완성판',url:'https://chatgpt.com/g/g-6a1c427fab80819191518c2108f99382-jiomareu-sugangsaeng-jeonyong-ai-peurompeuteu-koci',cat:'guides',desc:'ChatGPT 실습완성판과 함께 활용하는 지오마르 수강생 전용 AI 프롬프트 코치로 연결됩니다. PDF 원본과 교재 목차는 강사 안내를 참고해 주세요.',type:'교재 연계 AI 코치',icon:'GPT'},
@@ -129,6 +129,18 @@
    }
    if(changed&&read(STORE)){try{localStorage.setItem(STORE,JSON.stringify(items))}catch{}}
    try{localStorage.setItem(CUSTOM_GPT_MIGRATION,'1')}catch{}
+ }
+ // 기존 수강생 브라우저에 저장된 커뮤니티 카드에도 참여코드를 다시 표시합니다.
+ const CHAT_PASSWORDS_RESTORE='giomar.class.community.access-codes.20261030.v1';
+ if(!read(CHAT_PASSWORDS_RESTORE)){
+   let codesChanged=false;
+   for(const id of ['taneung','aiclub']){
+     const existing=items.find(x=>x.id===id);
+     const latest=DEFAULT.find(x=>x.id===id);
+     if(existing&&latest){existing.desc=latest.desc;existing.url=latest.url;existing.disabled=false;codesChanged=true}
+   }
+   if(codesChanged&&read(STORE)){try{localStorage.setItem(STORE,JSON.stringify(items))}catch{}}
+   try{localStorage.setItem(CHAT_PASSWORDS_RESTORE,'1')}catch{}
  }
  let faves=[];try{const loaded=JSON.parse(read(FAV));if(Array.isArray(loaded))faves=loaded.filter(v=>typeof v==='string'&&v!=='typing'&&v!=='typingpdf').slice(0,500);}catch{};
  let compact=read(VIEW)==='compact', selected='all',query='',editing=null,toastTimer;
