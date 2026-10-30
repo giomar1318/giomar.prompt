@@ -24,7 +24,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #c6a1ec;outline-offset:3p
 .help span{max-width:920px}
 main{position:relative;flex:1;min-height:200px;background:white}
 iframe{display:block;border:0;height:100%;width:100%;background:white}
-.empty{display:none;align-items:center;justify-content:center;height:100%;padding:25px;text-align:center}
+.outbound{padding:clamp(25px,6vw,70px);text-align:center;max-width:700px;margin:8vh auto 0;display:flex;flex-direction:column;align-items:center;gap:15px}.outbound h1{font-size:clamp(22px,3vw,30px);margin:5px 0}.outbound p{color:#65738b;line-height:1.8;margin:0 0 9px}.outbound-icon{width:82px;height:82px;border-radius:22px;background:#efebf9;color:#7054a4;display:grid;place-items:center;font-size:36px}.launch{display:inline-flex;padding:14px 24px;background:#15233c;color:#fff;border-radius:12px;font-weight:800}.return-secondary{color:#574783;padding:12px;font-size:14px}.empty{display:none;align-items:center;justify-content:center;height:100%;padding:25px;text-align:center}
 .empty p{line-height:1.8}
 @media(max-width:620px){
 .topbar{gap:8px;padding:10px}
@@ -41,10 +41,8 @@ iframe{display:block;border:0;height:100%;width:100%;background:white}
 <div class="center"><small>GIOMAR AI CLASS · 바로가기</small><strong id="siteName">사이트 연결 중</strong></div>
 <a class="external" id="externalLink" href="./" target="_blank" rel="noopener noreferrer">사이트 새 탭에서 열기 ↗</a>
 </header>
-<div class="help" role="note"><span>사이트가 표시되지 않으면 오른쪽의 <strong>‘사이트 새 탭에서 열기’</strong>를 눌러 주세요. 외부 사이트의 보안 정책에 따라 이 화면 안에서는 열리지 않을 수 있습니다.</span></div>
-<main><iframe id="frame" title="외부 사이트" referrerpolicy="no-referrer" allow="fullscreen; clipboard-write"></iframe>
-<div class="empty" id="empty"><p>유효하지 않은 주소입니다.<br><a class="return" style="display:inline-flex;margin-top:14px" href="./">← 자료실로 돌아가기</a></p></div>
-</main>
+<div class="help" role="note"><span>ChatGPT, Pinterest 등 외부 사이트는 보안 설정에 따라 화면 안에 삽입할 수 없습니다. <strong>새 탭에서 열기</strong>를 누르면 정상적인 사이트로 이동합니다.</span></div>
+<main><section class="outbound" id="outbound"><div class="outbound-icon" aria-hidden="true">↗</div><h1 id="outboundTitle">외부 사이트 열기</h1><p>일부 사이트는 다른 웹페이지 안에서 열리지 않습니다.<br>아래 버튼을 눌러 <strong>새 탭에서 사이트를 열면</strong> 이 화면은 그대로 남아 있습니다.</p><a class="launch" id="launchLink" href="./" target="_blank" rel="noopener noreferrer">사이트 새 탭에서 열기 ↗</a><a class="return-secondary" href="./">← 자료실로 돌아가기</a></section><div class="empty" id="empty"><p>유효하지 않은 주소입니다.<br><a class="return" style="display:inline-flex;margin-top:14px" href="./">← 자료실로 돌아가기</a></p></div></main>
 <script>
 (function(){
 'use strict';
@@ -53,11 +51,12 @@ const raw=p.get('url')||'';
 const name=(p.get('title')||'외부 사이트').slice(0,90);
 let valid=false;
 try{let u=new URL(raw);valid=(u.protocol==='https:'&&!!u.hostname&&!u.username&&!u.password)}catch{}
-if(!valid){document.getElementById('frame').style.display='none';document.getElementById('empty').style.display='flex';document.getElementById('externalLink').style.display='none';document.getElementById('siteName').textContent='사이트 주소 확인 필요';return}
+if(!valid){document.getElementById('outbound').style.display='none';document.getElementById('empty').style.display='flex';document.getElementById('externalLink').style.display='none';document.getElementById('siteName').textContent='사이트 주소 확인 필요';return}
 document.title=name+' | GIOMAR AI CLASS';
 document.getElementById('siteName').textContent=name;
-document.getElementById('frame').src=raw;
+document.getElementById('outboundTitle').textContent=name;
 document.getElementById('externalLink').href=raw;
+document.getElementById('launchLink').href=raw;
 })();
 </script>
 </body>
