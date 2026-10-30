@@ -65,6 +65,7 @@
  {id:'aiclub',title:'AI 아티스트 클럽 오픈채팅',url:'https://open.kakao.com/o/gLh2ojre',cat:'community',desc:'AI 아티스트 클럽 공식 오픈채팅. AI 창작·전시·교류 정보를 함께 나누는 커뮤니티. 참여 비밀번호는 강사에게 별도 문의',type:'오픈채팅',icon:'톡',disabled:false},
  {id:'bookmark',title:'한눈에 북마크 확장 프로그램',url:'https://chromewebstore.google.com/detail/%ED%95%9C%EB%88%88%EC%97%90-%EB%B6%81%EB%A7%88%ED%81%AC/epmkbbnagogpihejoddddofefpepjpmj',cat:'tools',desc:'데스크톱 크롬에서 카테고리별 북마크를 펼쳐 관리하는 확장 프로그램.',type:'PC·Mac 도구',icon:'BM'},
  {id:'aipot',title:'AI-POT 자격 안내',url:'https://license.kpc.or.kr/nasec/qlfint/qlfint/selectAipot.do',cat:'tools',desc:'한국생산성본부의 AI 프롬프트 활용능력 자격 시험·출제 기준 안내.',type:'자격 정보',icon:'AP'},
+ {id:'giomar-chatgpt-20261030',title:'처음부터 제대로 배우는 ChatGPT 실습완성판',url:'./chatgpt-coursebook.html',cat:'guides',desc:'GIOMAR ChatGPT 수강생 전용 실습 교재(76쪽). 학습 안내와 목차를 볼 수 있습니다. PDF 원본은 현재 수강생에게 강사가 별도로 전달합니다.',type:'수강생 전용 교재',icon:'GPT'},
  {id:'capcutpdf',title:'처음 시작하는 캡컷 PC 영상편집',url:'https://www.giomar.kr/',cat:'guides',desc:'GIOMAR 초보자용 PC 캡컷 영상편집 실습 가이드 · PDF 63쪽. PDF 파일은 강사가 별도로 전달합니다.',type:'수업 배포용 PDF',icon:'PDF',file:false,disabled:true},
  {id:'bookmarkpdf',title:'한눈에 북마크 공식 안내',url:'https://wntr.kr/bookmark',cat:'guides',desc:'북마크 확장 프로그램 설치, 검색, 백업·복원을 확인할 수 있는 제작자 안내 링크. PDF 자료는 별도 제공됩니다.',type:'공식 안내',icon:'BM',file:false}
  ];
@@ -104,6 +105,16 @@
      if(read(STORE)){try{localStorage.setItem(STORE,JSON.stringify(items))}catch{}}
    }
    try{localStorage.setItem(AICLUB_LINK_MIGRATION,'1')}catch{}
+ }
+ // 과거 버전 사용자의 로컬 저장 자료 목록에도 새 ChatGPT 교재 소개 링크를 1회 추가합니다.
+ const CHATGPT_COURSEBOOK_MIGRATION='giomar.class.seed.chatgpt-coursebook.20261030.v1';
+ if(!read(CHATGPT_COURSEBOOK_MIGRATION)){
+   const book=DEFAULT.find(x=>x.id==='giomar-chatgpt-20261030');
+   if(book&&!items.some(x=>x.id===book.id||x.url===book.url)){
+     items.push({...book});
+     if(read(STORE)){try{localStorage.setItem(STORE,JSON.stringify(items))}catch{}}
+   }
+   try{localStorage.setItem(CHATGPT_COURSEBOOK_MIGRATION,'1')}catch{}
  }
  let faves=[];try{const loaded=JSON.parse(read(FAV));if(Array.isArray(loaded))faves=loaded.filter(v=>typeof v==='string'&&v!=='typing'&&v!=='typingpdf').slice(0,500);}catch{};
  let compact=read(VIEW)==='compact', selected='all',query='',editing=null,toastTimer;
