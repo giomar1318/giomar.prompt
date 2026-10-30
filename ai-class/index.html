@@ -57,6 +57,7 @@
  {id:'ai-drawing-prompts-share',title:'지오마르 수강생 전용 AI 프롬프트 코치',url:'https://chatgpt.com/g/g-6a1c427fab80819191518c2108f99382-jiomareu-sugangsaeng-jeonyong-ai-peurompeuteu-koci',cat:'learning',desc:'GIOMAR AI CLASS 수강생이 AI 이미지·영상 등 창작 프롬프트를 만들고 개선할 때 활용하는 ChatGPT 맞춤 GPT입니다. ChatGPT 이용 환경에 따라 로그인이 필요할 수 있습니다.',type:'맞춤 GPT',icon:'AI'},
  {id:'pinterest',title:'Pinterest',url:'https://kr.pinterest.com/',cat:'art',desc:'이미지 구성, 색상, 작품 분위기 등 시각적 아이디어를 탐색하는 곳.',type:'아이디어',icon:'PI'},
  {id:'queenly',title:'퀸리의 공모전 소식',url:'https://ai-contest-board-new.queenly.chatgpt.site/',cat:'art',desc:'AI 이미지·영상·음악 공모전과 전시·작가 모집, 공개 수상작 정보를 살펴보는 공모전 게시판. 응모 조건과 마감일은 주최 측 공식 공고에서 재확인하세요.',type:'AI 공모전',icon:'🏆'},
+ {id:'aikive',title:'AI-Kive | AI 영상·공모전',url:'https://aikive.com/',cat:'art',desc:'AI 영화·숏폼·시리즈 작품을 감상하고 AI 영상 공모전 및 이벤트 정보를 확인하는 플랫폼. 응모 조건과 마감일은 각 공식 공고를 확인하세요.',type:'AI 영상·공모전',icon:'AK'},
  {id:'kag',title:'코리아아트가이드',url:'https://koreaartguide.com/',cat:'art',desc:'국내 전시와 문화예술 관련 정보를 살펴보는 플랫폼.',type:'전시 정보',icon:'KA'},
  {id:'pdr',title:'The Public Domain Review',url:'https://publicdomainreview.org/',cat:'art',desc:'저작권 보호기간이 지난 역사·예술 자료를 소개하는 해외 아카이브.',type:'고전 자료',icon:'PD'},
  {id:'met',title:'The Met 컬렉션',url:'https://www.metmuseum.org/art/collection',cat:'art',desc:'메트로폴리탄 미술관의 작품 검색과 오픈 액세스 이미지 자료.',type:'미술관',icon:'ME'},
@@ -129,6 +130,17 @@
    }
    if(changed&&read(STORE)){try{localStorage.setItem(STORE,JSON.stringify(items))}catch{}}
    try{localStorage.setItem(CUSTOM_GPT_MIGRATION,'1')}catch{}
+ }
+ // 기존 수강생이 이 기기에 저장해 둔 링크·즐겨찾기는 유지하면서 AI-Kive를 1회 추가합니다.
+ const AIKIVE_MIGRATION='giomar.class.seed.aikive.20261030.v1';
+ if(!read(AIKIVE_MIGRATION)){
+   const aikive=DEFAULT.find(x=>x.id==='aikive');
+   if(aikive&&!items.some(x=>x.id==='aikive'||x.url.replace(/\/+$/,'')==='https://aikive.com')){
+     const after=items.findIndex(x=>x.id==='queenly');
+     items.splice(after<0?items.length:after+1,0,{...aikive});
+     if(read(STORE)){try{localStorage.setItem(STORE,JSON.stringify(items))}catch{}}
+   }
+   try{localStorage.setItem(AIKIVE_MIGRATION,'1')}catch{}
  }
  // 기존 수강생 브라우저에 저장된 커뮤니티 카드에도 참여코드를 다시 표시합니다.
  const CHAT_PASSWORDS_RESTORE='giomar.class.community.access-codes.20261030.v1';
