@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#13233d">
-<meta name="description" content="GIOMAR AI CLASS: AI 학습 링크, 창작 자료, 오픈 액세스 미술 자료, 실습 교재를 한곳에서 찾는 학습 라이브러리">
+<meta name="description" content="GIOMAR AI CLASS 수강생 전용 학습 자료실. 수업 교재, AI 학습 자료와 유용한 사이트를 모은 공간입니다. 외부 공유 및 재배포를 삼가 주세요.">
 
 
 <title>GIOMAR AI CLASS | AI 학습 자료실</title>
@@ -23,6 +23,13 @@
 @media(max-width:1220px){.main{padding:0 25px 40px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:33px}}
 @media(max-width:830px){.layout{grid-template-columns:1fr}.side{display:none}.main{padding:0 16px 35px}.topbar{min-height:63px}.mobile-brand{display:block;color:#27354d;font-family:Georgia,serif;font-size:17px;letter-spacing:2px}.top-left{display:none}.top-actions .smallhide{display:none}.hero{margin-top:16px;padding:30px 23px;min-height:220px}.hero h1{font-size:27px}.stats{margin:13px 0 27px}.stat{padding:15px}.stat strong{font-size:19px}.intro h2{font-size:20px}.grid{gap:11px}.tile{padding:17px 15px}.only-mobile{display:block}.footer{display:block}}
 @media(max-width:560px){.grid,.grid.compact{grid-template-columns:1fr}.top-actions .btn{min-height:34px;padding:7px 10px;font-size:11px}.hero h1{font-size:25px}.hero .desc{font-size:12px}.stats{gap:7px}.stat{display:block;text-align:center;padding:12px 3px}.stat span{display:block;font-size:10px;margin-bottom:6px}.stat strong{font-size:19px}.filtermeta{align-items:start}.intro{align-items:start}.hero:after{right:-250px}.tile{min-height:0}.tile p{min-height:0}.grid.compact .tile{grid-template-columns:40px 1fr}.filters{padding:12px}.searchrow .btn{padding:7px 9px}.notice{padding:15px}}
+/* GIOMAR 수강생 전용 자료실 이용 안내 */
+.student-policy{margin:18px 0 22px;padding:18px 22px;border:1px solid #e2d8f3;border-radius:15px;background:#f5f0fc;color:#4f416e;box-shadow:0 5px 18px rgba(67,43,119,.035)}
+.student-policy-head{display:flex;align-items:center;gap:8px;font-size:16px;margin-bottom:8px;color:#443362}
+.student-policy-mark{font-size:18px}
+.student-policy p{font-size:13px;line-height:1.85;margin:5px 0;word-break:keep-all}
+.student-policy .student-policy-foot{font-size:12px;color:#75658f;margin-top:7px}
+@media(max-width:640px){.student-policy{padding:16px 15px;margin:13px 0 20px}.student-policy-head{font-size:14px}.student-policy p{font-size:12px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
@@ -35,7 +42,12 @@
 </aside>
 <main class="main">
   <div class="topbar"><div class="top-left"><span>HOME</span> / GIOMAR AI CLASS / 자료실</div><div class="mobile-brand">GIOMAR <span style="font:11px system-ui;color:#997e50;letter-spacing:0">AI CLASS</span></div><div class="top-actions"><button class="btn smallhide" id="exportBtn" type="button">↓ 백업하기</button><button class="btn smallhide" id="importBtn" type="button">↑ 불러오기</button><button class="btn primary" id="addBtn" type="button">＋ 자료 추가</button></div></div>
-  <section class="hero" aria-label="자료실 소개"><p class="eyebrow">GIOMAR AI CLASS · LEARNING LIBRARY</p><h1>배움의 모든 순간을,<br><b>한곳에 담다.</b></h1><p class="desc">AI 실습 자료부터 예술 레퍼런스, 강의 교재, 유용한 사이트까지.<br>필요한 자료를 쉽고 빠르게 찾아보세요.</p><span class="hero-stamp">✦ GIOMAR CLASS ARCHIVE · 2026</span></section>
+  <section class="hero" aria-label="자료실 소개"><p class="eyebrow">GIOMAR AI CLASS · 수강생 전용 학습 자료실</p><h1>배움의 모든 순간을,<br><b>한곳에 담다.</b></h1><p class="desc">AI 실습 자료부터 예술 레퍼런스, 강의 교재, 유용한 사이트까지.<br>필요한 자료를 쉽고 빠르게 찾아보세요.</p><span class="hero-stamp">✦ GIOMAR CLASS ARCHIVE · 2026</span></section>
+  <section class="student-policy" aria-label="GIOMAR AI CLASS 수강생 전용 이용 안내">
+  <div class="student-policy-head"><span class="student-policy-mark" aria-hidden="true">🔒</span><strong>GIOMAR AI CLASS · 수강생 전용 자료실</strong></div>
+  <p>이 자료실은 <strong>지오마르(GIOMAR) AI CLASS 수강생의 학습을 위한 공간</strong>입니다. 자료실 주소와 GIOMAR가 제작·제공한 수업 자료 및 교재는 강사의 사전 허락 없이 <strong>외부 공유·복사·재배포하거나 SNS·오픈채팅·커뮤니티 등에 게시하지 말아 주세요.</strong></p>
+  <p class="student-policy-foot">개인 학습 목적으로 이용해 주시고, 외부 사이트로 연결되는 자료는 해당 서비스의 이용 약관과 저작권 안내를 따라 주세요.</p>
+</section>
   <section class="stats" aria-label="자료 현황"><div class="stat"><span>등록된 자료</span><strong id="totalStat">0</strong></div><div class="stat"><span>자료 카테고리</span><strong id="categoryStat">6</strong></div><div class="stat"><span>나의 즐겨찾기</span><strong id="favStat">0</strong></div></section>
   <div class="intro"><div><p class="section-kicker">EXPLORE RESOURCES</p><h2 id="sectionTitle">전체 자료 보기</h2><p id="sectionDesc">카테고리를 선택하거나 키워드로 검색해 보세요.</p></div><button id="viewBtn" class="btn ghost" aria-label="보기 방식 바꾸기" type="button">☷ 목록 보기</button></div>
   <section class="filters" aria-label="자료 검색"><div class="searchrow"><div class="search"><input id="searchInput" placeholder="자료 이름, 사이트, 내용으로 검색하세요" aria-label="자료 검색" autocomplete="off"></div><button class="btn" id="resetBtn" type="button">초기화</button></div><div id="chips" class="filtertabs" aria-label="카테고리 필터"></div><div class="filtermeta"><span id="resultCount">전체 자료</span><span>별표 ★를 누르면 즐겨찾기에 저장됩니다.</span></div></section>
