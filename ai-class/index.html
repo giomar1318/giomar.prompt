@@ -56,7 +56,7 @@
   <div class="footer"><span><b>GIOMAR · AI CLASS</b>　Creative Learning Library</span><span>© 2026 GIOMAR · AI는 도구, 감성은 이야기.</span></div>
 </main>
 </div>
-<dialog class="modal" id="editor"><form id="editForm" novalidate><div class="modal-h"><h2 id="modalTitle">나만의 자료 추가</h2><p>웹사이트 주소나 PDF 파일을 내 기기에 저장할 수 있습니다.</p></div><div class="modal-b"><div class="field"><label for="itemKind">자료 종류</label><select id="itemKind"><option value="link">웹사이트 링크</option><option value="pdf">PDF 파일 (내 기기에 저장)</option></select></div><div class="field"><label for="itemTitle">자료 이름 *</label><input id="itemTitle" required maxlength="80" placeholder="예: AI 이미지 실습 자료"></div><div class="field" id="linkField"><label for="itemUrl">웹사이트 주소 *</label><input id="itemUrl" placeholder="https://example.com" inputmode="url"></div><div class="field" id="pdfField" hidden><label for="itemPdf">PDF 파일 선택 *</label><input id="itemPdf" type="file" accept=".pdf,application/pdf"><p class="pdf-help" id="pdfFileHelp">최대 60MB · 선택한 파일은 현재 기기의 브라우저에만 저장됩니다.</p></div><div class="field"><label for="itemCat">카테고리</label><select id="itemCat"></select></div><div class="field"><label for="itemDesc">간단한 설명</label><textarea id="itemDesc" maxlength="240" placeholder="이 자료를 언제 활용하면 좋은지 적어주세요."></textarea></div><p class="pdf-privacy" id="pdfPrivacy" hidden><strong>개인용 PDF 등록</strong> · 이 기능은 수강생 모두에게 교재를 배포하는 서버 업로드가 아닙니다. 파일은 현재 기기에만 보관되며 JSON 백업에 포함되지 않습니다. 원본 PDF를 따로 보관하세요.</p><div class="form-actions"><button id="deleteBtn" type="button" class="danger" hidden>자료 삭제</button><div class="right"><button id="cancelBtn" type="button" class="btn">취소</button><button type="submit" id="saveItemBtn" class="btn primary">저장하기</button></div></div></div></form></dialog>
+<dialog class="modal" id="editor"><form id="editForm" novalidate><div class="modal-h"><h2 id="modalTitle">나만의 자료 추가</h2><p>웹사이트 주소나 PDF 파일을 내 기기에 저장할 수 있습니다.</p></div><div class="modal-b"><div class="field"><label for="itemKind">자료 종류</label><select id="itemKind"><option value="link">웹사이트 링크</option><option value="pdf">PDF 파일 (내 기기에 저장)</option></select></div><div class="field"><label for="itemTitle">자료 이름 *</label><input id="itemTitle" required maxlength="80" placeholder="예: AI 이미지 실습 자료"></div><div class="field" id="linkField"><label for="itemUrl">웹사이트 주소 *</label><input id="itemUrl" placeholder="https://example.com" inputmode="url"></div><div class="field" id="pdfField" hidden><label for="itemPdf" id="itemPdfLabel">PDF 파일 선택 *</label><input id="itemPdf" type="file" accept=".pdf,application/pdf"><p class="pdf-help" id="pdfFileHelp">최대 60MB · 선택한 파일은 현재 기기의 브라우저에만 저장됩니다.</p></div><div class="field"><label for="itemCat">카테고리</label><select id="itemCat"></select></div><div class="field"><label for="itemDesc">간단한 설명</label><textarea id="itemDesc" maxlength="240" placeholder="이 자료를 언제 활용하면 좋은지 적어주세요."></textarea></div><p class="pdf-privacy" id="pdfPrivacy" hidden><strong>개인용 PDF 등록</strong> · 이 기능은 수강생 모두에게 교재를 배포하는 서버 업로드가 아닙니다. 파일은 현재 기기에만 보관되며 JSON 백업에 포함되지 않습니다. 원본 PDF를 따로 보관하세요.</p><div class="form-actions"><button id="deleteBtn" type="button" class="danger" hidden>자료 삭제</button><div class="right"><button id="cancelBtn" type="button" class="btn">취소</button><button type="submit" id="saveItemBtn" class="btn primary">저장하기</button></div></div></div></form></dialog>
 <input class="fileinput" type="file" id="importFile" accept=".json,application/json">
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <script>
@@ -162,12 +162,15 @@
  }
  function setItemKind(){
    const isPdf=$('itemKind').value==='pdf';
+   const previous=editing?personal.find(x=>x.id===editing):null;
+   const hasSavedPDF=!!previous?.file&&previous.url.startsWith('./pdf-reader.html?personal=');
    $('linkField').hidden=isPdf;
    $('pdfField').hidden=!isPdf;
    $('pdfPrivacy').hidden=!isPdf;
    $('itemUrl').required=!isPdf;
-   $('itemPdf').required=isPdf&&!editing;
-   $('pdfFileHelp').textContent=isPdf&&editing?'새 파일을 선택하면 기존 PDF를 교체합니다. 파일을 선택하지 않으면 기존 PDF를 유지합니다.':'최대 60MB · 선택한 파일은 현재 기기의 브라우저에만 저장됩니다.';
+   $('itemPdf').required=isPdf&&!hasSavedPDF;
+   $('itemPdfLabel').textContent=hasSavedPDF?'새 PDF 파일 선택 (선택 사항)':'PDF 파일 선택 *';
+   $('pdfFileHelp').textContent=isPdf&&hasSavedPDF?'새 파일을 선택하면 기존 PDF를 교체합니다. 파일을 선택하지 않으면 기존 PDF를 유지합니다.':'최대 60MB · 선택한 파일은 현재 기기의 브라우저에만 저장됩니다.';
  }
  $('itemKind').addEventListener('change',setItemKind);
  function openEditor(id=null){
